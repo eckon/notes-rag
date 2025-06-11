@@ -1,8 +1,9 @@
-name: Update vectors for AI prompting about my notes
+name: Update vectors for AI prompting about my personal/private notes
 
 on:
-  push:
-    branches: [master]
+  schedule:
+    - cron: "0 4 * * *" # Runs at 04:00 UTC every day
+  workflow_dispatch: # allows manual triggering
 
 jobs:
   update-vectors:
