@@ -1,0 +1,91 @@
+# ai scripts
+
+## idea
+
+- goal
+  - ask chatgpt a question about my notes and get info back with links
+- solution
+  - let a vector db handle the context search
+  - let chatgpt handle the answering
+  - let ci/cd handle the vector upload after changes
+    - new index creation should be done locally (long running task)
+- initializing setup
+  - chunking my notes into different parts to be turned into vectors
+    - sections, which have the heading and the content (with sub-sections)
+    - lists, which have the heading and the content of one list item and its sub-items
+  - uploading these vectors with some metadata to a vector db like pinecone
+    - path to the file
+    - name of file
+    - type of file
+    - hash of file content
+  - keeping track of the files and the version of its content that have been processed already
+    - done via hash generation of file content and storing a tracking file
+    - to avoid processing the same files without changes
+    - to allow deletion of old files
+    - also to allow rename/moving/deletion of complete files and their vectors
+  - allowing upserts of new vectors to the db and ignoring already existing vectors
+- answering setup
+  - get answer/request from user
+  - (enhance question to make it more clear/specific)
+    - via ollama or other tools
+  - create a customized prompt aligned to my notes and their context
+    - including question, instructions and context
+  - format context as machine readable as possible
+  - returning a ready prompt for chatgpt
+  - manual pasting of prompt into chatgpt
+
+## setup
+
+```bash
+# to keep notes relevant
+python3 -m venv venv
+source venv/bin/activate
+pip install -r ai-scripts/requirements.txt
+
+# to upgrade the packages
+pip install --upgrade -r requirements.txt
+```
+
+Then add the `PINECONE_API_KEY` to the `.env` file in `ai-scripts`.
+
+If `ollama` should be used, also add the `OLLAMA_HOST` to the `.env` file. And have the needed model(s) running.
+
+## running
+
+```bash
+# do it inside the ai-scripts folder
+cd ai-scripts
+
+# initialize the index, only needed once or with new notes, a tracking file exists to skip already processed files
+# ci/cd will do this automatically
+# BUT initial setup of a complete new index should be done locally (long running task)
+python3 ai_notes_indexer.py
+
+# ask a question - the result will be copied to the clipboard and should be used as a question to chatgpt etc.
+python3 ai_request.py "what is the best way to get a job?" | clip
+# OR use the justfile, this will do the same but with a nicer output and handling
+just ask "what is the best way to get a job?"
+```
+
+## testing
+
+### automated tests
+
+```bash
+pytest
+```
+
+### manual tests
+
+- baseline questions after running the `just ask` command and asking `chatgpt` to answer them
+  - `just ask "i want to delete a camera for bid dutchman what do i need to consider?"`
+    - should include
+      - frontend usage
+        - disabled when flags not set and data sent
+        - using it to trigger events
+      - how to update flag in db
+      - info about legal entity for permission
+      - reference to wiki because of readding the same camera
+      - links to the wiki and my notes
+        - mainly my camera-manager notes
+        - wiki to camera manager setup/deletion page
