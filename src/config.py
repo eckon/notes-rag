@@ -6,6 +6,7 @@ load_dotenv()
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
 INDEX_NAME = "notes-v6"  # v5 has working vectors but without the corrected file path
+TRACKED_FILE = "pinecone_tracked_files.txt"
 
 IN_CI = os.getenv("GITHUB_ACTIONS") is not None
 

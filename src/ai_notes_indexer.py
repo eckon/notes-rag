@@ -1,9 +1,10 @@
+import argparse
 import os
+import shutil
+import subprocess
 import sys
 import time
 import uuid
-import subprocess
-import argparse
 
 from pinecone import Pinecone, ServerlessSpec, Vector
 
@@ -11,6 +12,7 @@ from tracked_file_handler import TrackedFileHandler
 from markdown_chunker import chunk_markdown_by_heading, chunk_markdown_by_list
 from config import (
     IN_CI,
+    TRACKED_FILE,
     PINECONE_API_KEY,
     INDEX_NAME,
     CYAN,
@@ -30,9 +32,7 @@ class NotesIndexer:
 
     def __init__(self, testing=False):
         self.index_name = INDEX_NAME if not testing else "testing-spamming"
-        self.tracked_files_path = "ai-scripts/" + (
-            "pinecone_tracked_files.txt" if not testing else "testing.txt"
-        )
+        self.tracked_files_path = TRACKED_FILE if not testing else "testing.txt"
 
         if not IN_CI:
             self.confirm_execution()
@@ -188,19 +188,40 @@ Are you sure?{YELLOW} (y/N): {RESET}"""
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--prod", action="store_true", help="Run in production mode")
+    parser.add_argument(
+        "--root", type=str, help="Path to the root of a git repo", required=True
+    )
+    args = parser.parse_args()
+
     # correctly handle file paths, therefore let this script always run from the repo root
-    repo_root = subprocess.check_output(
+    original_repo_root = subprocess.check_output(
         ["git", "rev-parse", "--show-toplevel"],
         text=True,
     ).strip()
 
-    os.chdir(repo_root)
+    # move to the root of the git repo which was passed, even if moved to a subfolder
+    os.chdir(args.root)
+    reference_repo_root = subprocess.check_output(
+        ["git", "rev-parse", "--show-toplevel"],
+        text=True,
+    ).strip()
+    os.chdir(reference_repo_root)
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--prod", action="store_true", help="Run in production mode")
-    args = parser.parse_args()
+    print(f"Working in {CYAN}{os.getcwd()}{RESET}")
 
     try:
+        # we need to copy the index file to the notes repo
+        shutil.copy(f"{original_repo_root}/{TRACKED_FILE}", reference_repo_root)
+
+        # run the indexer in the notes repo
         NotesIndexer(testing=not args.prod).run()
+
+        # copy the index file back to the original repo
+        shutil.copy(f"{reference_repo_root}/{TRACKED_FILE}", original_repo_root)
+
+        # clean up the index file in the notes repo
+        os.remove(f"{reference_repo_root}/{TRACKED_FILE}")
     except KeyboardInterrupt:
         sys.exit(1)

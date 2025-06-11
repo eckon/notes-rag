@@ -1,0 +1,45 @@
+name: Update vectors for AI prompting about my notes
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  update-vectors:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout notes-rag repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Clone private notes repo
+        run: git clone https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/eckon/notes.git /tmp/private-notes
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r "requirements.txt"
+
+      - name: Run notes indexer
+        env:
+          PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
+        run: |
+          python src/ai_notes_indexer.py --prod --root /tmp/private-notes
+
+      - name: Commit and push changes if any
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          pwd
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git diff --quiet && git diff --staged --quiet || git commit -m "Sync notes vectors [skip ci]"
+          git push

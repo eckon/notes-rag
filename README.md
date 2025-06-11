@@ -1,5 +1,12 @@
 # ai scripts
 
+## todos
+
+- update script to work with notes
+  - trigger it per day or similar
+- make that this is as easy to run as the notes one
+  - meant locally, so test locally
+
 ## idea
 
 - goal
@@ -40,29 +47,26 @@
 # to keep notes relevant
 python3 -m venv venv
 source venv/bin/activate
-pip install -r ai-scripts/requirements.txt
+pip install -r requirements.txt
 
 # to upgrade the packages
 pip install --upgrade -r requirements.txt
 ```
 
-Then add the `PINECONE_API_KEY` to the `.env` file in `ai-scripts`.
+Then add the `PINECONE_API_KEY` to the `.env` file.
 
 If `ollama` should be used, also add the `OLLAMA_HOST` to the `.env` file. And have the needed model(s) running.
 
 ## running
 
 ```bash
-# do it inside the ai-scripts folder
-cd ai-scripts
-
 # initialize the index, only needed once or with new notes, a tracking file exists to skip already processed files
 # ci/cd will do this automatically
 # BUT initial setup of a complete new index should be done locally (long running task)
-python3 ai_notes_indexer.py
+python3 src/ai_notes_indexer.py --prod --root /path/to/notes
 
 # ask a question - the result will be copied to the clipboard and should be used as a question to chatgpt etc.
-python3 ai_request.py "what is the best way to get a job?" | clip
+python3 src/ai_request.py "what is the best way to get a job?" | clip
 # OR use the justfile, this will do the same but with a nicer output and handling
 just ask "what is the best way to get a job?"
 ```
