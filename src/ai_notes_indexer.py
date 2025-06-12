@@ -1,6 +1,5 @@
 import argparse
 import os
-import shutil
 import subprocess
 import sys
 import time
@@ -30,9 +29,28 @@ class NotesIndexer:
     This class is used to index my notes by creating vectors in a vector database.
     """
 
-    def __init__(self, testing=False):
+    def __init__(self, notes_path: str, testing=False):
+        # to allow running in both the rag and the notes repo, keep track of the root of both
+        self.rag_repo_root = subprocess.check_output(
+            ["git", "rev-parse", "--show-toplevel"],
+            text=True,
+        ).strip()
+
+        # move to the root of the git repo which was passed, even if moved to a subfolder (notes repo)
+        # via git we will go to the root of it
+        os.chdir(notes_path)
+        self.notes_repo_root = subprocess.check_output(
+            ["git", "rev-parse", "--show-toplevel"],
+            text=True,
+        ).strip()
+        os.chdir(self.notes_repo_root)
+
         self.index_name = INDEX_NAME if not testing else "testing-spamming"
-        self.tracked_files_path = TRACKED_FILE if not testing else "testing.txt"
+        self.tracked_files_path = (
+            f"{self.rag_repo_root}/{TRACKED_FILE}"
+            if not testing
+            else f"{self.rag_repo_root}/testing.txt"
+        )
 
         if not IN_CI:
             self.confirm_execution()
@@ -174,8 +192,10 @@ class NotesIndexer:
             input(
                 f"""
 This action might {RED}break{RESET} the current connected setup, check if you have the latest changes of this repo:
-DB INDEX:      {MAGENTA}`{self.index_name}`{RESET}
-TRACKED FILES: {MAGENTA}`{self.tracked_files_path}`{RESET}
+DB INDEX:      {MAGENTA}{self.index_name}{RESET}
+NOTES REPO:    {CYAN}{self.notes_repo_root}{RESET}
+RAG REPO:      {CYAN}{self.rag_repo_root}{RESET}
+TRACKED FILES: {GREY}{self.tracked_files_path}{RESET}
 Are you sure?{YELLOW} (y/N): {RESET}"""
             )
             .strip()
@@ -191,37 +211,15 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--prod", action="store_true", help="Run in production mode")
     parser.add_argument(
-        "--root", type=str, help="Path to the root of a git repo", required=True
+        "--root",
+        type=str,
+        help="Path to the root of a git repo",
+        default=os.path.expanduser("~/Documents/notes"),
     )
-    args = parser.parse_args()
-
-    # correctly handle file paths, therefore let this script always run from the repo root
-    original_repo_root = subprocess.check_output(
-        ["git", "rev-parse", "--show-toplevel"],
-        text=True,
-    ).strip()
-
-    # move to the root of the git repo which was passed, even if moved to a subfolder
-    os.chdir(args.root)
-    reference_repo_root = subprocess.check_output(
-        ["git", "rev-parse", "--show-toplevel"],
-        text=True,
-    ).strip()
-    os.chdir(reference_repo_root)
-
-    print(f"Working in {CYAN}{os.getcwd()}{RESET}")
 
     try:
-        # we need to copy the index file to the notes repo
-        shutil.copy(f"{original_repo_root}/{TRACKED_FILE}", reference_repo_root)
-
-        # run the indexer in the notes repo
-        NotesIndexer(testing=not args.prod).run()
-
-        # copy the index file back to the original repo
-        shutil.copy(f"{reference_repo_root}/{TRACKED_FILE}", original_repo_root)
-
-        # clean up the index file in the notes repo
-        os.remove(f"{reference_repo_root}/{TRACKED_FILE}")
+        args = parser.parse_args()
+        NotesIndexer(testing=not args.prod, notes_path=args.root).run()
     except KeyboardInterrupt:
+        print(f"\n{YELLOW}Operation cancelled{RESET}")
         sys.exit(1)

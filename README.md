@@ -1,12 +1,5 @@
 # ai scripts
 
-## todos
-
-- update script to work with notes
-  - trigger it per day or similar
-- make that this is as easy to run as the notes one
-  - meant locally, so test locally
-
 ## idea
 
 - goal
@@ -63,7 +56,14 @@ If `ollama` should be used, also add the `OLLAMA_HOST` to the `.env` file. And h
 # initialize the index, only needed once or with new notes, a tracking file exists to skip already processed files
 # ci/cd will do this automatically
 # BUT initial setup of a complete new index should be done locally (long running task)
-python3 src/ai_notes_indexer.py --prod --root /path/to/notes
+# default notes root is ~/Documents/notes
+python3 src/ai_notes_indexer.py --prod
+
+# run testing setup
+python3 src/ai_notes_indexer.py
+
+# manual setting of notes root
+python3 src/ai_notes_indexer.py --root /path/to/notes
 
 # ask a question - the result will be copied to the clipboard and should be used as a question to chatgpt etc.
 python3 src/ai_request.py "what is the best way to get a job?" | clip
