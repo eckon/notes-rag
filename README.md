@@ -37,10 +37,16 @@
 ## setup
 
 ```bash
-# to keep notes relevant
+# justfile: onetime setup python
+just setup
+
+# manually: onetime setup python
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+
+# to get access to python (repeat for every new terminal)
+source venv/bin/activate
 
 # to upgrade the packages
 pip install --upgrade -r requirements.txt
@@ -53,22 +59,19 @@ If `ollama` should be used, also add the `OLLAMA_HOST` to the `.env` file. And h
 ## running
 
 ```bash
-# initialize the index, only needed once or with new notes, a tracking file exists to skip already processed files
-# ci/cd will do this automatically
-# BUT initial setup of a complete new index should be done locally (long running task)
-# default notes root is ~/Documents/notes
-python3 src/ai_notes_indexer.py --prod
-
-# run testing setup
+# run the indexer (long running task)
+# ci/cd will do this periodically - note: initial setup takes long, so should be done locally
+# defaults: notes root is ~/Documents/notes; prod mode is off (-> testing mode)
 python3 src/ai_notes_indexer.py
 
-# manual setting of notes root
-python3 src/ai_notes_indexer.py --root /path/to/notes
+# run prod setup with custom notes root
+python3 src/ai_notes_indexer.py --prod --root /path/to/notes
 
-# ask a question - the result will be copied to the clipboard and should be used as a question to chatgpt etc.
-python3 src/ai_request.py "what is the best way to get a job?" | clip
-# OR use the justfile, this will do the same but with a nicer output and handling
+# justfile: create prompt for chatgpt and copy to clipboard
 just ask "what is the best way to get a job?"
+
+# manually: create prompt for chatgpt and copy to clipboard
+python3 src/ai_request.py "what is the best way to get a job?" | clip
 ```
 
 ## testing
