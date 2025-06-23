@@ -2,7 +2,7 @@ name: Update vectors for AI prompting about my personal/private notes
 
 on:
   schedule:
-    - cron: "0 4 * * *" # Runs at 04:00 UTC every day
+    - cron: "0 2 * * *" # Runs at 02:00 UTC every day
   workflow_dispatch: # allows manual triggering
 
 jobs:
