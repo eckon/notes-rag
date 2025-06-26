@@ -3,6 +3,7 @@ import requests
 from datetime import datetime
 from string import Template
 from typing import cast
+from enum import Enum
 
 import pyperclip
 from pinecone import Pinecone, QueryResponse
@@ -182,6 +183,13 @@ def try_enhance_question_for_db(question: str) -> str:
           needs to be of format http://<IP>:11434 to allow `requests` to connect
     """
 
+    class ModelChoice(Enum):
+        DEEPSEEK = "deepseek-r1"  # really slow, might overthink
+        GEMMA = "gemma3n:e2b"  # quicker, but no thinking
+
+    # decide which model to use which might be related to the wanted question
+    model_choice: ModelChoice = ModelChoice.GEMMA
+
     print(f"\n{CYAN}Check{RESET} ollama status")
     if not is_ollama_running():
         print(f"{GREY}Ollama is not running -> Skipping query enhancement{RESET}\n")
@@ -192,7 +200,7 @@ def try_enhance_question_for_db(question: str) -> str:
 
     enhanced_query_answer = (
         input(
-            f"{CYAN}Enhance{RESET} provided question to be less ambiguous? {YELLOW}(y/N){RESET}: "
+            f"{CYAN}Enhance{RESET} provided question with {MAGENTA}{model_choice.value}{RESET}? {YELLOW}(y/N){RESET}: "
         )
         .strip()
         .lower()
@@ -201,8 +209,15 @@ def try_enhance_question_for_db(question: str) -> str:
     if enhanced_query_answer not in {"yes", "y"}:
         return question
 
+    model_config = {
+        ModelChoice.DEEPSEEK: {
+            "think": True,
+        },
+        ModelChoice.GEMMA: {},
+    }
+
     ollama_stream = ollama.chat(
-        model="deepseek-r1",
+        model=model_choice.value,
         messages=[
             {
                 "role": "system",
@@ -211,10 +226,11 @@ def try_enhance_question_for_db(question: str) -> str:
             {"role": "user", "content": question},
         ],
         stream=True,
-        think=True,
+        **model_config.get(model_choice, {}),
     )
 
-    print(f"\n{GREY}Local model response:{RESET}")
+    print(f"\n{GREY}Local {model_choice.value} model response:{RESET}")
+
     enhanced_question = ""
     for chunk in ollama_stream:
         thinking_token = chunk.message.thinking
