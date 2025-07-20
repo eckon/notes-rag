@@ -45,11 +45,12 @@ class NotesIndexer:
         ).strip()
         os.chdir(self.notes_repo_root)
 
-        self.index_name = INDEX_NAME if not testing else "testing-spamming"
+        testing_name = "integrated-testing"
+        self.index_name = INDEX_NAME if not testing else testing_name
         self.tracked_files_path = (
             f"{self.rag_repo_root}/{TRACKED_FILE}"
             if not testing
-            else f"{self.rag_repo_root}/testing.txt"
+            else f"{self.rag_repo_root}/{testing_name}.txt"
         )
 
         if not IN_CI:
