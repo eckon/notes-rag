@@ -61,11 +61,20 @@ class NotesIndexer:
             print(
                 f"\n{MAGENTA}Creating{RESET} index{RESET} - {CYAN}{self.index_name}{RESET}"
             )
-            self.pc.create_index(
+            self.pc.create_index_for_model(
                 name=self.index_name,
-                dimension=1024,
-                metric="cosine",
-                spec=ServerlessSpec(cloud="aws", region="us-east-1"),
+                cloud="aws",
+                region="us-east-1",
+                embed={
+                    "model": "multilingual-e5-large",
+                    "field_map": {
+                        "text": "text",
+                        "filename": "text",
+                        "path": "text",
+                        "type": "text",
+                        "hash": "text",
+                    },
+                },
             )
             time.sleep(1)
 
@@ -100,6 +109,9 @@ class NotesIndexer:
 
         if vectors:
             print(f"{YELLOW}Uploading {GREEN}{len(vectors)}{RESET} vectors")
+            # NOTE: i can use upsert_record which seems to be faster, check the difference
+            #       guessing as the vector creation is done on their end not locally
+            #       so the `embed` part is not needed here and we just upload a record with id instead
             self.index.upsert(vectors=vectors)
 
     def generate_vectors(
