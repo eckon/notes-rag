@@ -5,8 +5,10 @@ load_dotenv()
 
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
-INDEX_NAME = "notes-v7"  # v6 is almost the same, but is missing configurations for the index
-TRACKED_FILE = "pinecone_tracked_files_v7.txt"
+
+INDEX_NAME = "notes-v8"
+INDEX_NAMESPACE = "default"
+TRACKED_FILE = f"pinecone_tracked_files_{INDEX_NAME}.txt"
 
 IN_CI = os.getenv("GITHUB_ACTIONS") is not None
 

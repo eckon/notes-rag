@@ -5,12 +5,13 @@ import sys
 import time
 import uuid
 
-from pinecone import Pinecone, ServerlessSpec, Vector
+from pinecone import AwsRegion, CloudProvider, EmbedModel, IndexEmbed, Pinecone
 
 from tracked_file_handler import TrackedFileHandler
 from markdown_chunker import chunk_markdown_by_heading, chunk_markdown_by_list
 from config import (
     IN_CI,
+    INDEX_NAMESPACE,
     TRACKED_FILE,
     PINECONE_API_KEY,
     INDEX_NAME,
@@ -45,7 +46,7 @@ class NotesIndexer:
         ).strip()
         os.chdir(self.notes_repo_root)
 
-        testing_name = "integrated-testing"
+        testing_name = "testing-index"
         self.index_name = INDEX_NAME if not testing else testing_name
         self.tracked_files_path = (
             f"{self.rag_repo_root}/{TRACKED_FILE}"
@@ -63,18 +64,13 @@ class NotesIndexer:
             )
             self.pc.create_index_for_model(
                 name=self.index_name,
-                cloud="aws",
-                region="us-east-1",
-                embed={
-                    "model": "multilingual-e5-large",
-                    "field_map": {
-                        "text": "text",
-                        "filename": "text",
-                        "path": "text",
-                        "type": "text",
-                        "hash": "text",
-                    },
-                },
+                cloud=CloudProvider.AWS,
+                region=AwsRegion.US_EAST_1,
+                embed=IndexEmbed(
+                    model=EmbedModel.Multilingual_E5_Large,
+                    metric='cosine',
+                    field_map={"text": "text"},
+                ),
             )
             time.sleep(1)
 
@@ -98,52 +94,38 @@ class NotesIndexer:
             "hash": file_hash,
         }
 
-        vectors = self.generate_vectors(chunked_markdown, metadata)
+        records = self.create_records(chunked_markdown, metadata)
 
         print(f"{GREY}Splitting markdown by lists{RESET}")
         chunked_lists = chunk_markdown_by_list(markdown)
 
         # overwrite the metadata type to list, as we want to upload both sections and lists
         metadata["type"] = "list"
-        vectors.extend(self.generate_vectors(chunked_lists, metadata))
+        records.extend(self.create_records(chunked_lists, metadata))
 
-        if vectors:
-            print(f"{YELLOW}Uploading {GREEN}{len(vectors)}{RESET} vectors")
-            # NOTE: i can use upsert_record which seems to be faster, check the difference
-            #       guessing as the vector creation is done on their end not locally
-            #       so the `embed` part is not needed here and we just upload a record with id instead
-            self.index.upsert(vectors=vectors)
+        if records:
+            print(f"{YELLOW}Uploading {GREEN}{len(records)}{RESET} records")
+            self.index.upsert_records(INDEX_NAMESPACE, records)
 
-    def generate_vectors(
+    def create_records(
         self, chunks: list[str], metadata_base: dict[str, str]
-    ) -> list[Vector]:
-        vectors: list[Vector] = []
+    ) -> list[dict]:
+        records = []
         for i, chunk in enumerate(chunks):
-            print(
-                f"{YELLOW}Generate {GREEN}{i+1}/{len(chunks)}{RESET} vectors", end="\r"
-            )
+            print(f"{YELLOW}Create {GREEN}{i+1}/{len(chunks)}{RESET} records", end="\r")
 
-            embedding = self.pc.inference.embed(
-                model="multilingual-e5-large",
-                inputs=chunk,
-                parameters={"input_type": "passage", "truncate": "END"},
-            )
+            record = {
+                "id": str(uuid.uuid4()),
+                "text": chunk,
+                **metadata_base,
+            }
 
-            vector = Vector(
-                str(uuid.uuid4()),
-                embedding[0]["values"],
-                {
-                    "text": chunk,
-                    **metadata_base,
-                },
-            )
+            records.append(record)
 
-            vectors.append(vector)
-
-        # go to next line, to not overwrite the generating vectors line
+        # go to next line, to not overwrite the creating records line
         print()
 
-        return vectors
+        return records
 
     def run(self) -> None:
         print(f"\n{GREEN}Starting creation/uploading of new vectors for notes{RESET}\n")

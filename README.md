@@ -3,10 +3,12 @@
 ## idea
 
 - goal
-  - ask chatgpt a question about my notes and get info back with links
+  - ask ai a question about my notes and get info back with links
 - solution
   - let a vector db handle the context search
-  - let chatgpt handle the answering
+  - let ai handle the answering
+    - be it basic ai chat via the `ai_request.py` script
+    - or agentic tools that do the answering to the vector db themselves
   - let ci/cd handle the vector upload after changes
     - new index creation should be done locally (long running task)
 - initializing setup
@@ -24,7 +26,7 @@
     - to allow deletion of old files
     - also to allow rename/moving/deletion of complete files and their vectors
   - allowing upserts of new vectors to the db and ignoring already existing vectors
-- answering setup
+- answering setup (only relevant for manual request via `ai_request.py`)
   - get answer/request from user
   - (enhance question to make it more clear/specific)
     - via ollama or other tools
