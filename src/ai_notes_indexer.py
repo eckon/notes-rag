@@ -4,6 +4,7 @@ import subprocess
 import sys
 import time
 import uuid
+from pathlib import Path
 
 from pinecone import AwsRegion, CloudProvider, EmbedModel, IndexEmbed, Pinecone
 
@@ -68,7 +69,7 @@ class NotesIndexer:
                 region=AwsRegion.US_EAST_1,
                 embed=IndexEmbed(
                     model=EmbedModel.Multilingual_E5_Large,
-                    metric='cosine',
+                    metric="cosine",
                     field_map={"text": "text"},
                 ),
             )
@@ -77,9 +78,9 @@ class NotesIndexer:
         self.index = self.pc.Index(self.index_name)
         self.f_handler = TrackedFileHandler(self.tracked_files_path)
 
-    def process_markdown_file(self, file_path: str) -> None:
+    def process_markdown_file(self, file_path: Path) -> None:
         # hash will be used to delete old vectors when notes are updated
-        file_hash = self.f_handler.get_file_hash(file_path)
+        file_hash = self.f_handler.get_file_hash(str(file_path))
 
         with open(file_path, "r", encoding="utf-8") as file:
             markdown = file.read()
@@ -88,8 +89,8 @@ class NotesIndexer:
         chunked_markdown = chunk_markdown_by_heading(markdown)
 
         metadata = {
-            "filename": os.path.basename(file_path),
-            "path": os.path.dirname(file_path),
+            "filename": file_path.name,
+            "path": str(file_path.parent),
             "type": "section",
             "hash": file_hash,
         }
@@ -105,7 +106,7 @@ class NotesIndexer:
 
         if records:
             print(f"{YELLOW}Uploading {GREEN}{len(records)}{RESET} records")
-            self.index.upsert_records(INDEX_NAMESPACE, records)
+            self.index.upsert_records(namespace=INDEX_NAMESPACE, records=records)
 
     def create_records(
         self, chunks: list[str], metadata_base: dict[str, str]
@@ -136,28 +137,30 @@ class NotesIndexer:
             text=True,
         ).splitlines()
 
-        files = [f for f in tracked_files if f.endswith(".md")]
+        files = [Path(f) for f in tracked_files if f.endswith(".md")]
 
-        for i, file in enumerate(files):
-            if self.f_handler.should_skip(file):
+        for i, file_path in enumerate(files):
+            if self.f_handler.should_skip(str(file_path)):
                 # skip because the file and its content has already been processed
-                print(f"{GREY}Skipping: {file}{RESET}")
+                print(f"{GREY}Skipping: {file_path}{RESET}")
                 continue
 
             # add a new line for visual separation and overview of progression
             print(
-                f"\n{MAGENTA}Working{RESET} on file {GREEN}{i+1}/{len(files)}{RESET} - {CYAN}{file}{RESET}"
+                f"\n{MAGENTA}Working{RESET} on file {GREEN}{i+1}/{len(files)}{RESET} - {CYAN}{file_path}{RESET}"
             )
-            self.process_markdown_file(file)
+            self.process_markdown_file(file_path)
 
             # keep track of the file and its hash to skip it on future runs
             print(
                 f"{GREEN}Finished{RESET} work on file and {GREEN}Save{RESET} current tracking locally"
             )
-            old_tracked_file = self.f_handler.upsert_tracked_file(file)
+            old_tracked_file = self.f_handler.upsert_tracked_file(str(file_path))
             if old_tracked_file:
                 print(f"{RED}Purge{RESET} old index in db")
-                self.index.delete(filter={"hash": old_tracked_file})
+                self.index.delete(
+                    namespace=INDEX_NAMESPACE, filter={"hash": old_tracked_file}
+                )
 
             # more visual separation (in case of many skipped files)
             print()
@@ -173,13 +176,15 @@ class NotesIndexer:
                 print(f"{RED}Deleting: {CYAN}{file}{RESET}")
                 if old_tracked_file:
                     print(f"{RED}Purge{RESET} old index in db")
-                    self.index.delete(filter={"hash": old_tracked_file})
+                    self.index.delete(
+                        namespace=INDEX_NAMESPACE, filter={"hash": old_tracked_file}
+                    )
                 else:
                     print(
                         f"{RED}WARNING:{RESET} Deleted {CYAN}{file}{RESET} but {YELLOW}Ignored{RESET} index in db"
                     )
 
-        # check tracked files and delete non existinf files
+        # check tracked files and delete non existing files
         print(f"\n{GREEN}Finished script{RESET}")
 
     def confirm_execution(self) -> None:

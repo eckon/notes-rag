@@ -6,7 +6,7 @@ load_dotenv()
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
 
-INDEX_NAME = "notes-v8"
+INDEX_NAME = "notes-v9"
 INDEX_NAMESPACE = "default"
 TRACKED_FILE = f"pinecone_tracked_files_{INDEX_NAME}.txt"
 
