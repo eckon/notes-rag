@@ -39,41 +39,32 @@
 ## setup
 
 ```bash
-# justfile: onetime setup python
-just setup
+# install packages and create virtual `.venv`
+uv sync
 
-# manually: onetime setup python
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-# to get access to python (repeat for every new terminal)
-source venv/bin/activate
-
-# to upgrade the packages
-pip install --upgrade -r requirements.txt
+# editor needs to use the created `.venv` to have packages, etc.
+# for example neovim:
+uv run nvim
 ```
 
 Then add the `PINECONE_API_KEY` to the `.env` file.
 
 If `ollama` should be used, also add the `OLLAMA_HOST` to the `.env` file. And have the needed model(s) running.
 
-## running
+## run
 
 ```bash
-# run the indexer (long running task)
-# ci/cd will do this periodically - note: initial setup takes long, so should be done locally
-# defaults: notes root is ~/Documents/notes; prod mode is off (-> testing mode)
-python3 src/ai_notes_indexer.py
+# run the notes indexer (auto run in ci/cd)
+just indexer-test
+just indexer-prod
 
-# run prod setup with custom notes root
-python3 src/ai_notes_indexer.py --prod --root /path/to/notes
-
-# justfile: create prompt for chatgpt and copy to clipboard
+# create prompt for an ai model and copy to clipboard
 just ask "what is the best way to get a job?"
 
-# manually: create prompt for chatgpt and copy to clipboard
-python3 src/ai_request.py "what is the best way to get a job?" | clip
+# or run it manually
+## defaults: notes root is ~/Documents/notes; prod mode is off (-> testing mode)
+uv run src/ai_notes_indexer.py --prod --root /path/to/notes
+uv run src/ai_request.py "what is the best way to get a job?"
 ```
 
 ## testing
@@ -81,7 +72,10 @@ python3 src/ai_request.py "what is the best way to get a job?" | clip
 ### automated tests
 
 ```bash
-pytest
+just test
+
+# or manually
+uv run pytest
 ```
 
 ### manual tests

@@ -2,11 +2,22 @@
 @_default:
   just --list
 
-setup:
-  python3 -m venv venv
-  ./venv/bin/pip install --upgrade -r requirements.txt
-  @echo "\nvenv created. Run 'source venv/bin/activate' to activate it."
-
 [group('ai')]
 ask question:
-  @python3 src/ai_request.py "{{question}}"
+  uv sync
+  uv run src/ai_request.py "{{question}}"
+
+[group('ai')]
+indexer-test:
+  uv sync
+  uv run src/ai_notes_indexer.py
+
+[group('ai')]
+indexer-prod:
+  uv sync
+  uv run src/ai_notes_indexer.py --prod
+
+[group('test')]
+test:
+  uv sync
+  uv run pytest

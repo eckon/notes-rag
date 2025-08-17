@@ -1,0 +1,18 @@
+[project]
+name = "notes-rag"
+version = "1.0.0"
+description = "AI scripts for my personal notes"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "ollama>=0.5.3",
+    "pinecone>=7.3.0",
+    "pyperclip>=1.9.0",
+    "python-dotenv>=1.1.1",
+    "requests>=2.32.4",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+]

@@ -1,6 +1,0 @@
-ollama
-pinecone
-pyperclip
-pytest
-python-dotenv
-requests
