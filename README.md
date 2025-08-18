@@ -30,7 +30,7 @@ and enables the use of AI to provide contextual responses.
 
 ## Setup
 
-1. Install dependencies:
+**Install dependencies**:
 
 > **Note:** Use `uv run nvim` to launch your editor with the correct virtual environment.
 
@@ -38,7 +38,7 @@ and enables the use of AI to provide contextual responses.
 uv sync
 ```
 
-2. Create `.env` file with:
+**Create `.env` file with**:
 
 ```env
 PINECONE_API_KEY=your_api_key

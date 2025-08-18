@@ -33,3 +33,5 @@ evaluate:
 check:
   uv run ruff check --fix
   uv run ruff format
+  npx prettier --write --cache --log-level warn '**/*.md'
+  npx markdownlint-cli '**/*.md' -f --ignore-path '.gitignore'
