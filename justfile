@@ -21,3 +21,8 @@ indexer-prod:
 test:
   uv sync
   uv run pytest
+
+[group('dev')]
+check:
+  uv run ruff check --fix
+  uv run ruff format

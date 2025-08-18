@@ -113,7 +113,9 @@ class NotesIndexer:
     ) -> list[dict]:
         records = []
         for i, chunk in enumerate(chunks):
-            print(f"{YELLOW}Create {GREEN}{i+1}/{len(chunks)}{RESET} records", end="\r")
+            print(
+                f"{YELLOW}Create {GREEN}{i + 1}/{len(chunks)}{RESET} records", end="\r"
+            )
 
             record = {
                 "id": str(uuid.uuid4()),
@@ -147,7 +149,7 @@ class NotesIndexer:
 
             # add a new line for visual separation and overview of progression
             print(
-                f"\n{MAGENTA}Working{RESET} on file {GREEN}{i+1}/{len(files)}{RESET} - {CYAN}{file_path}{RESET}"
+                f"\n{MAGENTA}Working{RESET} on file {GREEN}{i + 1}/{len(files)}{RESET} - {CYAN}{file_path}{RESET}"
             )
             self.process_markdown_file(file_path)
 

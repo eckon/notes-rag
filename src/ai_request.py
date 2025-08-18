@@ -110,7 +110,7 @@ The response should be a single line of text, unless the initial question includ
 
 # Today's date
 
-{datetime.today().strftime('%Y-%m-%d')}
+{datetime.today().strftime("%Y-%m-%d")}
 
 # Examples based on 2025-02-28
 
