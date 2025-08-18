@@ -5,6 +5,7 @@ import subprocess
 import sys
 import textwrap
 import time
+from pathlib import Path
 from string import Template
 
 from config import CYAN, GREEN, GREY, MAGENTA, RED, RESET, YELLOW
@@ -76,26 +77,27 @@ qa_pairs: list[tuple[str, str]] = [
 ]
 
 
-def evaluate(model: str, notes_root: str, output_file: str | None = None):
+def evaluate(model: str, notes_root: Path, output_file: str | None = None):
     score = 0
     total_questions = len(qa_pairs)
     current_dir = os.getcwd()
-    expanded_notes_root = os.path.expanduser(notes_root)
 
     print(f"Evaluation model: {MAGENTA}{model}{RESET}")
-    print(f"Notes directory:  {CYAN}{expanded_notes_root}{RESET}")
+    print(f"Notes directory:  {CYAN}{str(notes_root)}{RESET}")
     print(f"Total questions:  {YELLOW}{total_questions}{RESET}\n")
 
     results = []
     start_time = time.time()
 
     try:
-        os.chdir(expanded_notes_root)
-    except FileNotFoundError:
-        print(f"{RED}Error: Notes directory '{expanded_notes_root}' not found{RESET}")
+        os.chdir(notes_root)
+    except Exception as e:
+        print(f"{RED}Error changing to notes directory: {e}{RESET}")
         return
 
     for i, (question, answer) in enumerate(qa_pairs):
+        question_start_time = time.time()
+
         print(
             f"{YELLOW}{i + 1}. Question [{i + 1}/{total_questions}]{RESET}:\n{question}\n"
         )
@@ -124,17 +126,20 @@ def evaluate(model: str, notes_root: str, output_file: str | None = None):
                 r"Evaluation Result:\s*(true|false)", evaluation_result, re.IGNORECASE
             )
 
-            status_color = RED
             is_correct = match and match.group(1).lower() == "true"
+            question_duration = time.time() - question_start_time
+
             if is_correct:
                 score += 1
                 status = f"{GREEN}✓ PASS{RESET}"
                 status_color = GREEN
             else:
                 status = f"{RED}✗ FAIL{RESET}"
+                status_color = RED
 
             print(
-                f"{status} - Current Score: {status_color}{score}/{i + 1} ({score / (i + 1) * 100:.1f}%){RESET}\n"
+                f"{status} - Current Score: {status_color}{score}/{i + 1} ({score / (i + 1) * 100:.1f}%){RESET} "
+                f"({question_duration:.1f}s)\n"
             )
 
             # Store result for potential file output
@@ -145,11 +150,15 @@ def evaluate(model: str, notes_root: str, output_file: str | None = None):
                     "generated": generated_answer,
                     "evaluation": evaluation_result,
                     "correct": is_correct,
+                    "duration": question_duration,
                 }
             )
 
         except Exception as e:
-            print(f"{RED}Error processing question {i + 1}: {e}{RESET}\n")
+            question_duration = time.time() - question_start_time
+            print(
+                f"{RED}Error processing question {i + 1}: {e}{RESET} ({question_duration:.1f}s)\n"
+            )
             results.append(
                 {
                     "question": question,
@@ -157,6 +166,7 @@ def evaluate(model: str, notes_root: str, output_file: str | None = None):
                     "generated": f"ERROR: {e}",
                     "evaluation": "ERROR",
                     "correct": False,
+                    "duration": question_duration,
                 }
             )
 
@@ -176,9 +186,19 @@ def evaluate(model: str, notes_root: str, output_file: str | None = None):
     incorrect_question_numbers = [
         i + 1 for i, result in enumerate(results) if not result["correct"]
     ]
+
     if incorrect_question_numbers:
         print(
             f"Incorrect:    {RED}{', '.join(map(str, incorrect_question_numbers))}{RESET}"
+        )
+
+    error_question_numbers = [
+        i + 1 for i, result in enumerate(results) if "ERROR:" in result["generated"]
+    ]
+
+    if error_question_numbers:
+        print(
+            f"Errors:       {MAGENTA}{', '.join(map(str, error_question_numbers))}{RESET}"
         )
 
     if output_file:
@@ -189,6 +209,7 @@ def evaluate(model: str, notes_root: str, output_file: str | None = None):
 
 def run_opencode(prompt: str, model: str) -> str:
     command = ["opencode", "--model", model, "run", prompt]
+
     try:
         result = subprocess.run(
             command,
@@ -215,6 +236,7 @@ def save_results_to_file(
             f.write(f"Model: {model}\n")
             f.write(f"Score: {score}/{total} ({score / total * 100:.1f}%)\n")
             f.write(f"Duration: {duration:.1f} seconds\n")
+            f.write(f"Average: {duration / total:.1f} seconds per question\n")
             f.write(f"Timestamp: {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
             f.write("=" * 80 + "\n\n")
 
@@ -224,6 +246,7 @@ def save_results_to_file(
                 f.write(f"Generated:\n{result['generated']}\n\n")
                 f.write(f"Evaluation:\n{result['evaluation']}\n\n")
                 f.write(f"Result: {'PASS' if result['correct'] else 'FAIL'}\n")
+                f.write(f"Duration: {result.get('duration', 0):.1f}s\n")
                 f.write("-" * 80 + "\n\n")
 
         print(f"{GREEN}Results saved to {filename}{RESET}")
@@ -249,8 +272,13 @@ def main():
 
     args = parser.parse_args()
 
+    expanded_notes_root = Path(os.path.expanduser(args.notes_root))
+    if not expanded_notes_root.exists():
+        print(f"{RED}Error: Notes directory '{expanded_notes_root}' not found{RESET}")
+        return
+
     try:
-        evaluate(args.model, args.notes_root, args.output)
+        evaluate(args.model, expanded_notes_root, args.output)
     except KeyboardInterrupt:
         print(f"\n{YELLOW}Operation cancelled{RESET}")
         sys.exit(1)
