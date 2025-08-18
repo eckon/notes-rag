@@ -35,6 +35,9 @@
   - format context as machine readable as possible
   - returning a ready prompt for chatgpt
   - manual pasting of prompt into chatgpt
+- evaluation of the generated answers
+  - comparing the generated answer with an expected answer
+  - evaluating the quality of the answer
 
 ## setup
 
@@ -69,26 +72,16 @@ uv run src/ai_request.py "what is the best way to get a job?"
 
 ## testing
 
-### automated tests
 
 ```bash
+# for quick unit tests, mainly for the creation of chunks
 just test
-
 # or manually
 uv run pytest
+
+# for long running evaluation of the generated answers based on the QA pairs
+# this expects `opencode` to be able to handle the answer/evaluation generation
+just evaluate
+# or manually
+uv run src/evaluator.py
 ```
-
-### manual tests
-
-- baseline questions after running the `just ask` command and asking `chatgpt` to answer them
-  - `just ask "i want to delete a camera for bid dutchman what do i need to consider?"`
-    - should include
-      - frontend usage
-        - disabled when flags not set and data sent
-        - using it to trigger events
-      - how to update flag in db
-      - info about legal entity for permission
-      - reference to wiki because of readding the same camera
-      - links to the wiki and my notes
-        - mainly my camera-manager notes
-        - wiki to camera manager setup/deletion page

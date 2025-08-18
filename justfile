@@ -17,10 +17,17 @@ indexer-prod:
   uv sync
   uv run src/ai_notes_indexer.py --prod
 
+
 [group('test')]
 test:
   uv sync
   uv run pytest
+
+[group('test')]
+evaluate:
+  uv sync
+  uv run src/evaluator.py
+
 
 [group('dev')]
 check:
