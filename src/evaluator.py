@@ -46,6 +46,10 @@ qa_pairs: list[tuple[str, str]] = [
     ("What is the name of the user", "Niklas Meyer"),
     ("Can you open the browser?", "Yes or any mention that the browser was opened."),
     (
+        "Can you open the browser in headless mode?",
+        "Yes or any mention that the browser was opened, but in headless mode.",
+    ),
+    (
         "Can you access the pinecone vector db for my notes?",
         "Yes or any reference that the vector db was accessed.",
     ),
@@ -75,6 +79,26 @@ qa_pairs: list[tuple[str, str]] = [
             It is only relevant if we really get only data from the last week,
             and the different tasks in there are from the last week only.
             That the data is divided into the different days and listed as bullet points.
+        """).strip(),
+    ),
+    (
+        "Give me an overview of the health insurance topic in context of my work at IU.",
+        textwrap.dedent("""
+            The health insurance topic handles the insurance policiy for the students at IU.
+            It sends out and receives messages from the different providers
+            and is required for different flows like matriculation, enrollment, etc.
+            It was integrated in EPOS which handles stundent enrolment and matriculation.
+
+            We tried many refactorings and improvements of the code as it was really fragile.
+            One try was with Pexon, a consultancy that resulted in a tedious back and forth for the refactoring process.
+            After the failed refactoring try, the old Developer of the original code, was used to do the latest refactoring, which worked out.
+
+            Health insurance resulted in many repeating manual tasks that had to be done by hand.
+            One of the worst was when the order of messages was broken and we had to manually
+            decode different messages and correctly overwrite them to restore the correct order.
+
+            Until the end, the data in health insurance could not be trusted, and developers
+            provided a manual edit/delete/create view for users to fix the data.
         """).strip(),
     ),
 ]
@@ -126,11 +150,14 @@ def evaluate(
 
         try:
             print(f"{GREY}Generating answer...{RESET}")
+            answer_start_time = time.time()
             generated_answer = run_opencode(question, model)
+            answer_duration = time.time() - answer_start_time
 
             print(f"{MAGENTA}Generated Answer{RESET}:\n{generated_answer}\n")
 
             print(f"{GREY}Evaluating answer...{RESET}")
+            evaluation_start_time = time.time()
             evaluation_result = run_opencode(
                 evaluation_prompt.substitute(
                     question=question,
@@ -139,6 +166,7 @@ def evaluate(
                 ),
                 model,
             )
+            evaluation_duration = time.time() - evaluation_start_time
 
             print(f"{CYAN}Evaluation{RESET}:\n{evaluation_result}\n")
 
@@ -160,7 +188,7 @@ def evaluate(
 
             print(
                 f"{status} - Current Score: {status_color}{score}/{i + 1} ({score / (i + 1) * 100:.1f}%){RESET} "
-                f"({question_duration:.1f}s)\n"
+                f"(Answer: {answer_duration:.1f}s, Eval: {evaluation_duration:.1f}s, Total: {question_duration:.1f}s)\n"
             )
 
             # Store result for potential file output
@@ -172,6 +200,8 @@ def evaluate(
                     "evaluation": evaluation_result,
                     "correct": is_correct,
                     "duration": question_duration,
+                    "answer_duration": answer_duration,
+                    "evaluation_duration": evaluation_duration,
                 }
             )
 
@@ -188,6 +218,8 @@ def evaluate(
                     "evaluation": "ERROR",
                     "correct": False,
                     "duration": question_duration,
+                    "answer_duration": 0,
+                    "evaluation_duration": 0,
                 }
             )
 
@@ -267,7 +299,11 @@ def save_results_to_file(
                 f.write(f"Generated:\n{result['generated']}\n\n")
                 f.write(f"Evaluation:\n{result['evaluation']}\n\n")
                 f.write(f"Result: {'PASS' if result['correct'] else 'FAIL'}\n")
-                f.write(f"Duration: {result.get('duration', 0):.1f}s\n")
+                f.write(f"Answer Duration: {result.get('answer_duration', 0):.1f}s\n")
+                f.write(
+                    f"Evaluation Duration: {result.get('evaluation_duration', 0):.1f}s\n"
+                )
+                f.write(f"Total Duration: {result.get('duration', 0):.1f}s\n")
                 f.write("-" * 80 + "\n\n")
 
         print(f"{GREEN}Results saved to {filename}{RESET}")
