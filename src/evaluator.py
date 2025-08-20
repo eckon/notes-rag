@@ -44,8 +44,11 @@ evaluation_prompt = Template(
 
 qa_pairs: list[tuple[str, str]] = [
     ("What is the name of the user", "Niklas Meyer"),
-    ("Can you open the browser?", "Yes"),
-    ("Can you access the pinecone vector db for my notes?", "Yes"),
+    ("Can you open the browser?", "Yes or any mention that the browser was opened."),
+    (
+        "Can you access the pinecone vector db for my notes?",
+        "Yes or any reference that the vector db was accessed.",
+    ),
     (
         "What did i do on the '2025-08-17'?",
         textwrap.dedent("""
@@ -56,7 +59,7 @@ qa_pairs: list[tuple[str, str]] = [
         """).strip(),
     ),
     (
-        "I want to delete a camera for big dutchman what do i need to consider?",
+        "I want to delete a camera for big dutchman, what do i need to consider?",
         textwrap.dedent("""
             We want to use the frontend to delete the camera, to trigger all relevant events and cleanup.
             To be able to, we need to update the database filed `automaticRegistrationPending` to `true`.
@@ -66,7 +69,7 @@ qa_pairs: list[tuple[str, str]] = [
         """).strip(),
     ),
     (
-        "What happened over the last week, please note down each day in its own section with bullet points?",
+        "What happened over the last week? Please note down each day in its own section with bullet points.",
         textwrap.dedent("""
             The content of the returned data does not really matter.
             It is only relevant if we really get only data from the last week,
@@ -77,17 +80,33 @@ qa_pairs: list[tuple[str, str]] = [
 ]
 
 
-def evaluate(model: str, notes_root: Path, output_file: str | None = None):
-    score = 0
-    total_questions = len(qa_pairs)
-    current_dir = os.getcwd()
-
-    print(f"Evaluation model: {MAGENTA}{model}{RESET}")
+def evaluate(
+    model: str,
+    notes_root: Path,
+    output_file: str | None = None,
+    test_case: int | None = None,
+):
     print(f"Notes directory:  {CYAN}{str(notes_root)}{RESET}")
-    print(f"Total questions:  {YELLOW}{total_questions}{RESET}\n")
+    print(f"Evaluation model: {MAGENTA}{model}{RESET}")
 
+    # Filter qa_pairs if specific test case is requested, otherwise run all
+    qa_pairs_to_run = qa_pairs
+    if test_case is not None:
+        if test_case < 1 or test_case > len(qa_pairs):
+            print(
+                f"{RED}Error: Test case {test_case} is out of range (1-{len(qa_pairs)}){RESET}"
+            )
+            return
+        qa_pairs_to_run = [qa_pairs[test_case - 1]]
+        print(f"Running Question: {YELLOW}{test_case}{RESET}\n")
+    else:
+        print(f"Total questions:  {YELLOW}{len(qa_pairs_to_run)}{RESET}\n")
+
+    score = 0
+    current_dir = os.getcwd()
     results = []
     start_time = time.time()
+    total_questions = len(qa_pairs_to_run)
 
     try:
         os.chdir(notes_root)
@@ -95,11 +114,13 @@ def evaluate(model: str, notes_root: Path, output_file: str | None = None):
         print(f"{RED}Error changing to notes directory: {e}{RESET}")
         return
 
-    for i, (question, answer) in enumerate(qa_pairs):
+    for i, (question, answer) in enumerate(qa_pairs_to_run):
         question_start_time = time.time()
 
+        # Show original question number if running specific test case
+        display_number = test_case if test_case is not None else i + 1
         print(
-            f"{YELLOW}{i + 1}. Question [{i + 1}/{total_questions}]{RESET}:\n{question}\n"
+            f"{YELLOW}{display_number}. Question [{i + 1}/{total_questions}]{RESET}:\n{question}\n"
         )
         print(f"{GREEN}Expected Answer{RESET}:\n{answer}\n")
 
@@ -269,6 +290,11 @@ def main():
         help="Root directory of notes (default: ~/Documents/notes)",
     )
     parser.add_argument("--output", help="Save detailed results to file")
+    parser.add_argument(
+        "--test-case",
+        type=int,
+        help="Run only a specific test case by number (1-based index)",
+    )
 
     args = parser.parse_args()
 
@@ -278,7 +304,7 @@ def main():
         return
 
     try:
-        evaluate(args.model, expanded_notes_root, args.output)
+        evaluate(args.model, expanded_notes_root, args.output, args.test_case)
     except KeyboardInterrupt:
         print(f"\n{YELLOW}Operation cancelled{RESET}")
         sys.exit(1)
