@@ -23,16 +23,10 @@ class EvaluationResult(TypedDict):
     evaluation_duration: float
 
 
-class EvaluationSummary(TypedDict):
-    results: list[EvaluationResult]
-    score: int
-    duration: float
-
-
 def evaluate(
     model: str,
     question_answer_pairs: list[tuple[str, str]],
-) -> EvaluationSummary:
+) -> None:
     score = 0
     results: list[EvaluationResult] = []
     start_time = time.time()
@@ -177,12 +171,6 @@ def evaluate(
             f"Errors:       {MAGENTA}{', '.join(map(str, error_question_numbers))}{RESET}"
         )
 
-    return {
-        "results": results,
-        "score": score,
-        "duration": duration,
-    }
-
 
 def run_opencode(prompt: str, model: str) -> str:
     command = ["opencode", "--model", model, "run", prompt]
@@ -202,56 +190,6 @@ def run_opencode(prompt: str, model: str) -> str:
         raise Exception(
             "opencode command not found. Make sure it's installed and in your PATH."
         )
-
-
-def save_results_to_file(
-    results: list[EvaluationResult],
-    filename: str,
-    model: str,
-    score: int,
-    total_questions: int,
-    duration: float,
-) -> None:
-    try:
-        # Calculate average quality score
-        quality_scores = [
-            r["quality_score"] for r in results if r["quality_score"] is not None
-        ]
-        avg_quality_score = (
-            sum(quality_scores) / len(quality_scores) if quality_scores else 0
-        )
-
-        with open(filename, "w") as f:
-            f.write("Evaluation Results\n")
-            f.write(f"Model: {model}\n")
-            f.write(
-                f"Score: {score}/{total_questions} ({score / total_questions * 100:.1f}%)\n"
-            )
-            f.write(f"Quality Average: {avg_quality_score:.1f}/100\n")
-            f.write(f"Duration: {duration:.1f} seconds\n")
-            f.write(f"Average: {duration / total_questions:.1f} seconds per question\n")
-            f.write(f"Timestamp: {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
-            f.write("=" * 80 + "\n\n")
-
-            for i, result in enumerate(results, 1):
-                f.write(f"Question {i}:\n{result['question']}\n\n")
-                f.write(f"Expected:\n{result['expected']}\n\n")
-                f.write(f"Generated:\n{result['generated']}\n\n")
-                f.write(f"Evaluation:\n{result['evaluation']}\n\n")
-                f.write(f"Result: {'PASS' if result['correct'] else 'FAIL'}\n")
-                quality_score = result.get("quality_score")
-                if quality_score is not None:
-                    f.write(f"Quality Score: {quality_score}/100\n")
-                f.write(f"Answer Duration: {result.get('answer_duration', 0):.1f}s\n")
-                f.write(
-                    f"Evaluation Duration: {result.get('evaluation_duration', 0):.1f}s\n"
-                )
-                f.write(f"Total Duration: {result.get('duration', 0):.1f}s\n")
-                f.write("-" * 80 + "\n\n")
-
-        print(f"{GREEN}Results saved to {filename}{RESET}")
-    except Exception as e:
-        print(f"{RED}Error saving results to file: {e}{RESET}")
 
 
 def main() -> None:
@@ -294,30 +232,14 @@ def main() -> None:
         )
         return
 
-    qa_pairs_to_run = [qa_pairs[args.test_case - 1]] if args.test_case else qa_pairs
-
     try:
-        current_dir = os.getcwd()
         os.chdir(expanded_notes_root)
 
         print(f"Notes directory:  {CYAN}{str(expanded_notes_root)}{RESET}")
         print(f"Evaluation model: {MAGENTA}{args.model}{RESET}")
 
-        # main logic, run the different questions and get some evaluation results
-        evaluation_summary = evaluate(args.model, qa_pairs_to_run)
-
-        # after evaluating the external repo, we want to execute other tasks in the original directory
-        os.chdir(current_dir)
-
-        if args.output:
-            save_results_to_file(
-                evaluation_summary["results"],
-                args.output,
-                args.model,
-                evaluation_summary["score"],
-                len(evaluation_summary["results"]),
-                evaluation_summary["duration"],
-            )
+        qa_pairs_to_run = [qa_pairs[args.test_case - 1]] if args.test_case else qa_pairs
+        evaluate(args.model, qa_pairs_to_run)
     except KeyboardInterrupt:
         print(f"\n{YELLOW}Operation cancelled{RESET}")
         sys.exit(1)
