@@ -23,48 +23,30 @@ class EvaluationResult(TypedDict):
     evaluation_duration: float
 
 
+class EvaluationSummary(TypedDict):
+    results: list[EvaluationResult]
+    score: int
+    duration: float
+
+
 def evaluate(
     model: str,
-    notes_root: Path,
-    output_file: str | None = None,
-    test_case: int | None = None,
-) -> None:
-    print(f"Notes directory:  {CYAN}{str(notes_root)}{RESET}")
-    print(f"Evaluation model: {MAGENTA}{model}{RESET}")
-
-    # Filter qa_pairs if specific test case is requested, otherwise run all
-    if test_case is not None:
-        if test_case < 1 or test_case > len(qa_pairs):
-            print(
-                f"{RED}Error: Test case {test_case} is out of range (1-{len(qa_pairs)}){RESET}"
-            )
-            return
-        qa_pairs_to_run = [qa_pairs[test_case - 1]]
-        print(f"Running Question: {YELLOW}{test_case}{RESET}\n")
-    else:
-        qa_pairs_to_run = qa_pairs
-        print(f"Total questions:  {YELLOW}{len(qa_pairs_to_run)}{RESET}\n")
-
+    question_answer_pairs: list[tuple[str, str]],
+) -> EvaluationSummary:
     score = 0
-    current_dir = os.getcwd()
     results: list[EvaluationResult] = []
     start_time = time.time()
-    total_questions = len(qa_pairs_to_run)
+    total_questions = len(question_answer_pairs)
 
-    try:
-        os.chdir(notes_root)
-    except Exception as e:
-        print(f"{RED}Error changing to notes directory: {e}{RESET}")
-        return
+    print(f"Total questions:  {YELLOW}{total_questions}{RESET}\n")
 
-    for i, (question, answer) in enumerate(qa_pairs_to_run):
+    for i, (question, answer) in enumerate(question_answer_pairs):
         question_start_time = time.time()
 
-        # Show original question number if running specific test case otherwise show current question
-        display_number = test_case if test_case is not None else i + 1
         print(
-            f"{YELLOW}{display_number}. Question [{i + 1}/{total_questions}]{RESET}:\n{question}\n"
+            f"{YELLOW}{i + 1}. Question [{i + 1}/{total_questions}]{RESET}:\n{question}\n"
         )
+
         print(f"{GREEN}Expected Answer{RESET}:\n{answer}\n")
 
         try:
@@ -98,12 +80,12 @@ def evaluate(
                 and evaluation_result_match.group(1).lower() == "true"
             )
 
-            quality_scora_match = re.search(
+            quality_score_match = re.search(
                 r"Quality Score:\s*(\d+)", evaluation_result, re.IGNORECASE
             )
 
             quality_score = (
-                int(quality_scora_match.group(1)) if quality_scora_match else None
+                int(quality_score_match.group(1)) if quality_score_match else None
             )
 
             if is_correct:
@@ -125,7 +107,6 @@ def evaluate(
                 f"(Answer: {answer_duration:.1f}s, Eval: {evaluation_duration:.1f}s, Total: {question_duration:.1f}s)\n"
             )
 
-            # Store result for potential file output
             results.append(
                 {
                     "question": question,
@@ -139,7 +120,6 @@ def evaluate(
                     "evaluation_duration": evaluation_duration,
                 }
             )
-
         except Exception as e:
             question_duration = time.time() - question_start_time
             print(
@@ -158,9 +138,6 @@ def evaluate(
                     "evaluation_duration": 0,
                 }
             )
-
-    # Always change back to original directory
-    os.chdir(current_dir)
 
     end_time = time.time()
     duration = end_time - start_time
@@ -200,10 +177,11 @@ def evaluate(
             f"Errors:       {MAGENTA}{', '.join(map(str, error_question_numbers))}{RESET}"
         )
 
-    if output_file:
-        save_results_to_file(
-            results, output_file, model, score, total_questions, duration
-        )
+    return {
+        "results": results,
+        "score": score,
+        "duration": duration,
+    }
 
 
 def run_opencode(prompt: str, model: str) -> str:
@@ -231,7 +209,7 @@ def save_results_to_file(
     filename: str,
     model: str,
     score: int,
-    total: int,
+    total_questions: int,
     duration: float,
 ) -> None:
     try:
@@ -246,10 +224,12 @@ def save_results_to_file(
         with open(filename, "w") as f:
             f.write("Evaluation Results\n")
             f.write(f"Model: {model}\n")
-            f.write(f"Score: {score}/{total} ({score / total * 100:.1f}%)\n")
+            f.write(
+                f"Score: {score}/{total_questions} ({score / total_questions * 100:.1f}%)\n"
+            )
             f.write(f"Quality Average: {avg_quality_score:.1f}/100\n")
             f.write(f"Duration: {duration:.1f} seconds\n")
-            f.write(f"Average: {duration / total:.1f} seconds per question\n")
+            f.write(f"Average: {duration / total_questions:.1f} seconds per question\n")
             f.write(f"Timestamp: {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
             f.write("=" * 80 + "\n\n")
 
@@ -305,8 +285,35 @@ def main() -> None:
         print(f"{RED}Error: Notes directory '{expanded_notes_root}' not found{RESET}")
         return
 
+    # Validate test case range if specified
+    if args.test_case is not None and (args.test_case < 1 or args.test_case > len(qa_pairs)):
+        print(f"{RED}Error: Test case {args.test_case} is out of range (1-{len(qa_pairs)}){RESET}")
+        return
+
+    qa_pairs_to_run = [qa_pairs[args.test_case - 1]] if args.test_case else qa_pairs
+
     try:
-        evaluate(args.model, expanded_notes_root, args.output, args.test_case)
+        current_dir = os.getcwd()
+        os.chdir(expanded_notes_root)
+
+        print(f"Notes directory:  {CYAN}{str(expanded_notes_root)}{RESET}")
+        print(f"Evaluation model: {MAGENTA}{args.model}{RESET}")
+
+        # main logic, run the different questions and get some evaluation results
+        evaluation_summary = evaluate(args.model, qa_pairs_to_run)
+
+        # after evaluating the external repo, we want to execute other tasks in the original directory
+        os.chdir(current_dir)
+
+        if args.output:
+            save_results_to_file(
+                evaluation_summary["results"],
+                args.output,
+                args.model,
+                evaluation_summary["score"],
+                len(evaluation_summary["results"]),
+                evaluation_summary["duration"],
+            )
     except KeyboardInterrupt:
         print(f"\n{YELLOW}Operation cancelled{RESET}")
         sys.exit(1)
