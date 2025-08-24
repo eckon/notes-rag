@@ -24,6 +24,11 @@ test:
   uv run pytest
 
 [group('test')]
+test-verbose:
+  uv sync
+  uv run pytest -vv
+
+[group('test')]
 evaluate:
   uv sync
   uv run src/evaluator.py

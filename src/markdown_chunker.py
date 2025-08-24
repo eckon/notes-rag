@@ -1,8 +1,8 @@
-from typing import List, Dict, Any
 import re
+from typing import TypedDict
 
 
-def chunk_markdown_by_heading(markdown: str) -> List[str]:
+def chunk_markdown_by_heading(markdown: str) -> list[str]:
     """
     Splits the given markdown string into sections based on headings.
     Each section is a string with the content of the section.
@@ -10,9 +10,15 @@ def chunk_markdown_by_heading(markdown: str) -> List[str]:
     Child sections are included in their parent section.
     """
 
+    class Section(TypedDict):
+        heading: str
+        level: int
+        result: str | None
+
     lines = markdown.splitlines()
-    sections: List[Dict[str, Any]] = []
-    current: Dict[str, Any] | None = None
+    sections: list[Section] = []
+    current: Section | None = None
+    temporary_content: list[str] = []
 
     # build a list with all direct data of the given sections (meaning parent headings have no child content)
     for line in lines:
@@ -20,27 +26,29 @@ def chunk_markdown_by_heading(markdown: str) -> List[str]:
         match = re.match(r"^(#{1,6}) (.+)", line)
         if match:
             if current:
-                current["content"] = "\n".join(current["content"]).strip()
+                current["result"] = "\n".join(temporary_content).strip()
                 sections.append(current)
 
+            # store initial heading and clear previous temporary content
+            temporary_content = [line]
             current = {
                 "heading": match[2].strip(),
                 "level": len(match[1]),
-                "content": [line],
+                "result": None,
             }
         elif current:
-            current["content"].append(line)
+            temporary_content.append(line)
 
     # add the last section
     if current:
-        current["content"] = "\n".join(current["content"]).strip()
+        current["result"] = "\n".join(temporary_content).strip()
         sections.append(current)
 
     # enhance lists, to let parents include their children, based on ordering
-    chunked_markdown: List[str] = []
+    chunked_markdown: list[str] = []
     for i, section in enumerate(sections):
         initial_level = section["level"]
-        current_section: List[Dict[str, Any]] = []
+        current_section: list[Section] = []
 
         # only iterate over following sections, as children can not exist before their parents
         for n, sub_section in enumerate(sections[i:]):
@@ -50,21 +58,22 @@ def chunk_markdown_by_heading(markdown: str) -> List[str]:
 
             current_section.append(sub_section)
 
-        chunked_markdown.append(
-            ("\n".join(s["content"] + "\n" for s in current_section)).strip()
-        )
+        joined_sections = [
+            s["result"] for s in current_section if s["result"] is not None
+        ]
+        chunked_markdown.append("\n\n".join(joined_sections))
 
     return chunked_markdown
 
 
-def chunk_markdown_by_list(markdown: str) -> List[str]:
+def chunk_markdown_by_list(markdown: str) -> list[str]:
     """
     Return a list of all lists, tasks, todos with its main heading
     """
 
     lines = markdown.splitlines()
-    markdown_lists: List[str] = []
-    current: List[str] | None = None
+    markdown_lists: list[str] = []
+    current: list[str] | None = None
     current_heading: str = ""
 
     # build a list with all direct data of the given sections (meaning parent headings have no child content)
