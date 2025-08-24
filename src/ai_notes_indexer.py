@@ -5,6 +5,7 @@ import sys
 import time
 import uuid
 from pathlib import Path
+from typing import Literal, TypedDict
 
 from pinecone import AwsRegion, CloudProvider, EmbedModel, IndexEmbed, Pinecone
 
@@ -24,6 +25,13 @@ from config import (
 )
 from markdown_chunker import chunk_markdown_by_heading, chunk_markdown_by_list
 from tracked_file_handler import TrackedFileHandler
+
+
+class ChunkMetadata(TypedDict):
+    filename: str
+    path: Path
+    type: Literal["section", "list"]
+    hash: str
 
 
 class NotesIndexer:
@@ -85,16 +93,15 @@ class NotesIndexer:
         with open(file_path, "r", encoding="utf-8") as file:
             markdown = file.read()
 
-        print(f"{GREY}Splitting markdown by sections{RESET}")
-        chunked_markdown = chunk_markdown_by_heading(markdown)
-
-        metadata = {
+        metadata: ChunkMetadata = {
             "filename": file_path.name,
-            "path": str(file_path.parent),
+            "path": file_path.parent,
             "type": "section",
             "hash": file_hash,
         }
 
+        print(f"{GREY}Splitting markdown by sections{RESET}")
+        chunked_markdown = chunk_markdown_by_heading(markdown)
         records = self.create_records(chunked_markdown, metadata)
 
         print(f"{GREY}Splitting markdown by lists{RESET}")
@@ -109,7 +116,7 @@ class NotesIndexer:
             self.index.upsert_records(namespace=INDEX_NAMESPACE, records=records)
 
     def create_records(
-        self, chunks: list[str], metadata_base: dict[str, str]
+        self, chunks: list[str], metadata_base: ChunkMetadata
     ) -> list[dict]:
         records = []
         for i, chunk in enumerate(chunks):
@@ -120,7 +127,10 @@ class NotesIndexer:
             record = {
                 "id": str(uuid.uuid4()),
                 "text": chunk,
-                **metadata_base,
+                "filename": metadata_base["filename"],
+                "path": str(metadata_base["path"]),
+                "type": metadata_base["type"],
+                "hash": metadata_base["hash"],
             }
 
             records.append(record)
