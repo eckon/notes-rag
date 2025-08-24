@@ -8,22 +8,22 @@ from pathlib import Path
 
 from pinecone import AwsRegion, CloudProvider, EmbedModel, IndexEmbed, Pinecone
 
-from tracked_file_handler import TrackedFileHandler
-from markdown_chunker import chunk_markdown_by_heading, chunk_markdown_by_list
 from config import (
-    IN_CI,
-    INDEX_NAMESPACE,
-    TRACKED_FILE,
-    PINECONE_API_KEY,
-    INDEX_NAME,
     CYAN,
     GREEN,
     GREY,
+    IN_CI,
+    INDEX_NAME,
+    INDEX_NAMESPACE,
     MAGENTA,
+    PINECONE_API_KEY,
     RED,
     RESET,
+    TRACKED_FILE,
     YELLOW,
 )
+from markdown_chunker import chunk_markdown_by_heading, chunk_markdown_by_list
+from tracked_file_handler import TrackedFileHandler
 
 
 class NotesIndexer:
@@ -209,7 +209,7 @@ Are you sure?{YELLOW} (y/N): {RESET}"""
             exit(1)
 
 
-if __name__ == "__main__":
+def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--prod", action="store_true", help="Run in production mode")
     parser.add_argument(
@@ -225,3 +225,7 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print(f"\n{YELLOW}Operation cancelled{RESET}")
         sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

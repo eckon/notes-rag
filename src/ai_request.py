@@ -1,27 +1,25 @@
 import sys
-import requests
 from datetime import datetime
+from enum import Enum
 from string import Template
 from typing import cast
-from enum import Enum
 
 import pyperclip
+import requests
 from pinecone import Pinecone, QueryResponse
 
 from config import (
     CYAN,
     GREEN,
     GREY,
+    INDEX_NAME,
+    INDEX_NAMESPACE,
     MAGENTA,
     OLLAMA_HOST,
     PINECONE_API_KEY,
-    INDEX_NAME,
     RESET,
     YELLOW,
 )
-
-pc = Pinecone(api_key=PINECONE_API_KEY)
-index = pc.Index(INDEX_NAME)
 
 result_template = Template(
     """
@@ -96,7 +94,7 @@ $question
 $context
 
 # End of Prompt
-        """.strip()
+""".strip()
 )
 
 enhance_question_prompt_template = Template(
@@ -124,6 +122,9 @@ Improved: What did the user do on 2025-02-28?
 """
 )
 
+pc = Pinecone(api_key=PINECONE_API_KEY)
+index = pc.Index(INDEX_NAME)
+
 
 def get_context_from_db(query: str, max_length: int = 20_000) -> str:
     embedding = pc.inference.embed(
@@ -140,6 +141,7 @@ def get_context_from_db(query: str, max_length: int = 20_000) -> str:
             top_k=50,
             include_values=False,
             include_metadata=True,
+            namespace=INDEX_NAMESPACE,
         ),
     )
 
@@ -264,26 +266,26 @@ def try_enhance_question_for_db(question: str) -> str:
 
 
 def main() -> None:
-    # allow passing the question without quotes, by using all args
-    question = " ".join(sys.argv[1:])
+    try:
+        # allow passing the question without quotes, by using all args
+        question = " ".join(sys.argv[1:])
 
-    print(f"{MAGENTA}Provided{RESET} question")
-    print(f"{GREY}{question}{RESET}")
+        print(f"{MAGENTA}Provided{RESET} question")
+        print(f"{GREY}{question}{RESET}")
 
-    question = try_enhance_question_for_db(question)
+        question = try_enhance_question_for_db(question)
 
-    print(f"{YELLOW}Retrieve{RESET} context from {CYAN}db{RESET}")
-    context = get_context_from_db(question)
+        print(f"{YELLOW}Retrieve{RESET} context from {CYAN}db{RESET}")
+        context = get_context_from_db(question)
 
-    print(f"{YELLOW}Create{RESET} prompt")
-    prompt_text = prompt_template.substitute(question=question, context=context)
+        print(f"{YELLOW}Create{RESET} prompt")
+        prompt_text = prompt_template.substitute(question=question, context=context)
 
-    print(f"{GREEN}Copied{RESET} prompt into {CYAN}clipboard{RESET}")
-    pyperclip.copy(prompt_text)
+        print(f"{GREEN}Copied{RESET} prompt into {CYAN}clipboard{RESET}")
+        pyperclip.copy(prompt_text)
+    except KeyboardInterrupt:
+        sys.exit(1)
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        sys.exit(1)
+    main()
