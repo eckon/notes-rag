@@ -286,8 +286,12 @@ def main() -> None:
         return
 
     # Validate test case range if specified
-    if args.test_case is not None and (args.test_case < 1 or args.test_case > len(qa_pairs)):
-        print(f"{RED}Error: Test case {args.test_case} is out of range (1-{len(qa_pairs)}){RESET}")
+    if args.test_case is not None and (
+        args.test_case < 1 or args.test_case > len(qa_pairs)
+    ):
+        print(
+            f"{RED}Error: Test case {args.test_case} is out of range (1-{len(qa_pairs)}){RESET}"
+        )
         return
 
     qa_pairs_to_run = [qa_pairs[args.test_case - 1]] if args.test_case else qa_pairs
