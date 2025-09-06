@@ -4,11 +4,18 @@ import re
 import subprocess
 import sys
 import time
+from enum import Enum
 from pathlib import Path
 from typing import TypedDict
 
 from config import CYAN, GREEN, GREY, MAGENTA, RED, RESET, YELLOW
 from evaluator_prompt import evaluation_prompt, qa_pairs
+
+
+class AITool(Enum):
+    OPENCODE = "opencode"
+    CLAUDE = "claude"
+    CODEX = "codex"
 
 
 class EvaluationResult(TypedDict):
@@ -23,16 +30,50 @@ class EvaluationResult(TypedDict):
     evaluation_duration: float
 
 
+def run_tool(prompt: str, tool: AITool) -> str:
+    if tool == AITool.OPENCODE:
+        command = [
+            "opencode",
+            "--model",
+            "anthropic/claude-sonnet-4-20250514",
+            "run",
+            prompt,
+        ]
+    elif tool == AITool.CLAUDE:
+        command = ["claude", "--dangerously-skip-permissions", "--print", "--", prompt]
+    elif tool == AITool.CODEX:
+        command = ["codex", "exec", prompt]
+    else:
+        raise ValueError(f"Unknown tool: {tool}")
+
+    try:
+        result = subprocess.run(
+            command,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        return result.stdout.strip()
+    except subprocess.CalledProcessError as e:
+        error_msg = e.stderr.strip() if e.stderr else "Unknown error"
+        raise Exception(f"Command failed with exit code {e.returncode}: {error_msg}")
+    except FileNotFoundError:
+        raise Exception(
+            f"{tool.value} command not found. Make sure it's installed and in your PATH."
+        )
+
+
 def evaluate(
-    model: str,
     question_answer_pairs: list[tuple[str, str]],
+    tool: AITool,
+    evaluation_tool: AITool,
 ) -> None:
     score = 0
     results: list[EvaluationResult] = []
     start_time = time.time()
     total_questions = len(question_answer_pairs)
 
-    print(f"Total questions:  {YELLOW}{total_questions}{RESET}\n")
+    print(f"Total questions: {YELLOW}{total_questions}{RESET}\n")
 
     for i, (question, answer) in enumerate(question_answer_pairs):
         question_start_time = time.time()
@@ -46,20 +87,20 @@ def evaluate(
         try:
             print(f"{GREY}Generating answer...{RESET}")
             answer_start_time = time.time()
-            generated_answer = run_opencode(question, model)
+            generated_answer = run_tool(question, tool)
             answer_duration = time.time() - answer_start_time
 
             print(f"{MAGENTA}Generated Answer{RESET}:\n{generated_answer}\n")
 
             print(f"{GREY}Evaluating answer...{RESET}")
             evaluation_start_time = time.time()
-            evaluation_result = run_opencode(
+            evaluation_result = run_tool(
                 evaluation_prompt.substitute(
                     question=question,
                     answer=answer,
                     answer_to_evaluate=generated_answer,
                 ),
-                model,
+                evaluation_tool,
             )
             evaluation_duration = time.time() - evaluation_start_time
 
@@ -172,26 +213,6 @@ def evaluate(
         )
 
 
-def run_opencode(prompt: str, model: str) -> str:
-    command = ["opencode", "--model", model, "run", prompt]
-
-    try:
-        result = subprocess.run(
-            command,
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        return result.stdout.strip()
-    except subprocess.CalledProcessError as e:
-        error_msg = e.stderr.strip() if e.stderr else "Unknown error"
-        raise Exception(f"Command failed with exit code {e.returncode}: {error_msg}")
-    except FileNotFoundError:
-        raise Exception(
-            "opencode command not found. Make sure it's installed and in your PATH."
-        )
-
-
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Evaluate AI model performance on Q&A tasks"
@@ -201,6 +222,20 @@ def main() -> None:
         "--model",
         default="anthropic/claude-sonnet-4-20250514",
         help="AI model to use for evaluation (default: anthropic/claude-sonnet-4-20250514)",
+    )
+
+    parser.add_argument(
+        "--tool",
+        choices=[tool.value for tool in AITool],
+        default=AITool.OPENCODE.value,
+        help=f"AI tool to use (default: {AITool.OPENCODE.value})",
+    )
+
+    parser.add_argument(
+        "--evaluation-tool",
+        choices=[tool.value for tool in AITool],
+        default=AITool.OPENCODE.value,
+        help=f"AI evaulation tool to use (default: {AITool.OPENCODE.value})",
     )
 
     parser.add_argument(
@@ -235,11 +270,15 @@ def main() -> None:
     try:
         os.chdir(expanded_notes_root)
 
-        print(f"Notes directory:  {CYAN}{str(expanded_notes_root)}{RESET}")
-        print(f"Evaluation model: {MAGENTA}{args.model}{RESET}")
+        ai_tool = AITool(args.tool)
+        evaluation_tool = AITool(args.evaluation_tool)
+
+        print(f"Notes directory: {CYAN}{str(expanded_notes_root)}{RESET}")
+        print(f"AI tool:         {MAGENTA}{args.tool}{RESET}")
+        print(f"Evaluation tool: {MAGENTA}{args.evaluation_tool}{RESET}")
 
         qa_pairs_to_run = [qa_pairs[args.test_case - 1]] if args.test_case else qa_pairs
-        evaluate(args.model, qa_pairs_to_run)
+        evaluate(qa_pairs_to_run, ai_tool, evaluation_tool)
     except KeyboardInterrupt:
         print(f"\n{YELLOW}Operation cancelled{RESET}")
         sys.exit(1)
