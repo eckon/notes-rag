@@ -23,6 +23,13 @@ example_markdown = """
 some irrelevant notes
 
 - [/] private task 1
+- a note that spans
+  multiple lines
+  that continue
+      even with incorrect indentation
+
+  or empty lines
+- continue list also works as expected
 """.strip()
 
 result_1 = """
@@ -53,6 +60,23 @@ result_4 = """
 - [/] private task 1
 """.strip()
 
+result_5 = """
+## private
+
+- a note that spans
+  multiple lines
+  that continue
+      even with incorrect indentation
+  or empty lines
+""".strip()
+
+
+result_6 = """
+## private
+
+- continue list also works as expected
+""".strip()
+
 
 def test_list_chunks():
     result = chunk_markdown_by_list(example_markdown)
@@ -61,3 +85,5 @@ def test_list_chunks():
     assert result[1] == result_2
     assert result[2] == result_3
     assert result[3] == result_4
+    assert result[4] == result_5
+    assert result[5] == result_6

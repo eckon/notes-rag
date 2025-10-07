@@ -95,6 +95,9 @@ def chunk_markdown_by_list(markdown: str) -> list[str]:
             match = re.match(r"\s+- (\[[xX/ ]\] )?(.+)", line)
             if current and match:
                 current.append(line)
+            # handle continuation lines that are part of a multi-line list item
+            elif current and re.match(r"\s+", line):
+                current.append(line)
 
     # add the last list
     if current:
