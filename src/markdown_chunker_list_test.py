@@ -91,9 +91,9 @@ def test_list_chunks():
 
 def test_list_chunks_with_quotes():
     markdown_with_quotes = """
-# Setup Notes
+# Example
 
-## Installation
+## Sub Example
 
 - a normal list
   - with a sub list
@@ -107,13 +107,13 @@ def test_list_chunks_with_quotes():
 """.strip()
 
     normal_list = """
-## Installation
+## Sub Example
 
 - a normal list
   - with a sub list""".strip()
 
     quote_example = """
-## Installation
+## Sub Example
 
 - then another list
   > with a quote itself
@@ -127,3 +127,53 @@ def test_list_chunks_with_quotes():
     assert result[0] == normal_list
     assert result[1] == quote_example
     assert result[2] == normal_list
+
+
+def test_list_chunks_with_fenced_code_blocks():
+    markdown_with_code = """
+# Example
+
+## Sub Example
+
+- item 1
+- item 2
+  - item 2.1
+    > item 2.1.1
+  - item 2.2
+
+    ```example
+    line 1
+    line 2
+    ```
+
+- item 3
+""".strip()
+
+    start_list = """
+## Sub Example
+
+- item 1""".strip()
+
+    code_list = """
+## Sub Example
+
+- item 2
+  - item 2.1
+    > item 2.1.1
+  - item 2.2
+    ```example
+    line 1
+    line 2
+    ```""".strip()
+
+    end_list = """
+## Sub Example
+
+- item 3""".strip()
+
+    result = chunk_markdown_by_list(markdown_with_code)
+
+    assert len(result) == 3
+    assert result[0] == start_list
+    assert result[1] == code_list
+    assert result[2] == end_list
