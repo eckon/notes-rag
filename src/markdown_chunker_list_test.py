@@ -87,3 +87,43 @@ def test_list_chunks():
     assert result[3] == result_4
     assert result[4] == result_5
     assert result[5] == result_6
+
+
+def test_list_chunks_with_quotes():
+    markdown_with_quotes = """
+# Setup Notes
+
+## Installation
+
+- a normal list
+  - with a sub list
+- then another list
+  > with a quote itself
+  - and a sub list
+    > that has
+    > multiline quotes
+- a normal list
+  - with a sub list
+""".strip()
+
+    normal_list = """
+## Installation
+
+- a normal list
+  - with a sub list""".strip()
+
+    quote_example = """
+## Installation
+
+- then another list
+  > with a quote itself
+  - and a sub list
+    > that has
+    > multiline quotes""".strip()
+
+    result = chunk_markdown_by_list(markdown_with_quotes)
+
+    assert len(result) == 3
+    assert result[0] == normal_list
+    assert result[1] == quote_example
+    assert result[2] == normal_list
