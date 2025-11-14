@@ -35,7 +35,7 @@ def run_tool(prompt: str, tool: AITool) -> str:
         command = [
             "opencode",
             "--model",
-            "anthropic/claude-sonnet-4-20250514",
+            "anthropic/claude-sonnet-4-5",
             "run",
             prompt,
         ]
@@ -216,12 +216,6 @@ def evaluate(
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Evaluate AI model performance on Q&A tasks"
-    )
-
-    parser.add_argument(
-        "--model",
-        default="anthropic/claude-sonnet-4-20250514",
-        help="AI model to use for evaluation (default: anthropic/claude-sonnet-4-20250514)",
     )
 
     parser.add_argument(
