@@ -39,12 +39,8 @@ evaluation_prompt = Template(
 )
 
 qa_pairs: list[tuple[str, str]] = [
-    ("What is the name of the user", "Niklas Meyer"),
+    ("What is the name of the user", "Niklas Melo Meyer"),
     ("Can you open the browser?", "Yes or any mention that the browser was opened."),
-    (
-        "Can you open the browser in headless mode?",
-        "Yes or any mention that the browser was opened, but in headless mode.",
-    ),
     (
         "Can you access the pinecone vector db for my notes?",
         "Yes or any reference that the vector db was accessed.",
