@@ -107,7 +107,7 @@ def evaluate(
             print(f"{CYAN}Evaluation{RESET}:\n{evaluation_result}\n")
 
             evaluation_result_match = re.search(
-                r"Evaluation Result:\s*(true|false)", evaluation_result, re.IGNORECASE
+                r".*Evaluation Result.*(true|false)", evaluation_result, re.IGNORECASE
             )
 
             is_correct = bool(
