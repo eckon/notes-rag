@@ -51,15 +51,15 @@ OLLAMA_HOST=http://localhost:11434  # optional for local AI question enhancement
 
 ```bash
 # Index your notes (*-test for testing vector db)
-just indexer-prod
+mise run indexer-prod
 
 # Ask a question and get the prompt in the clipboard
-just ask "what did i do the last week?"
+mise run ask "what did i do the last week?"
 ```
 
 **Manual usage:**
 
-> See `justfile` or scripts in `src/` for additional commands.
+> See `mise.toml` or scripts in `src/` for additional commands.
 
 ```bash
 # Index notes (defaults to ~/Documents/notes)
@@ -70,8 +70,8 @@ uv run src/ai_notes_indexer.py --prod --root /path/to/notes
 
 ```bash
 # Run unit tests
-just test
+mise run test
 
 # Evaluate answer quality
-just evaluate
+mise run evaluate
 ```

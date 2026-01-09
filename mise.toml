@@ -1,0 +1,38 @@
+# AI tasks
+[tasks.ask]
+usage = '''
+arg "<prompt>" env="PROMPT" help="Prompt to be asked"
+'''
+description = "Ask a question about your notes"
+run = "uv sync && uv run src/ai_request.py ${question}"
+
+[tasks.indexer-test]
+description = "Index notes for testing (test database)"
+run = "uv sync && uv run src/ai_notes_indexer.py"
+
+[tasks.indexer-prod]
+description = "Index notes for production"
+run = "uv sync && uv run src/ai_notes_indexer.py --prod"
+
+# Test tasks
+[tasks.test]
+description = "Run unit tests"
+run = "uv sync && uv run pytest"
+
+[tasks.test-verbose]
+description = "Run unit tests with verbose output"
+run = "uv sync && uv run pytest -vv"
+
+[tasks.evaluate]
+description = "Evaluate answer quality (runs evaluator)"
+run = "uv sync && uv run src/evaluator.py"
+
+# Dev tasks
+[tasks.check]
+description = "Run all formatters and linters over the whole repo"
+run = [
+  "uv run ruff check --fix",
+  "uv run ruff format",
+  "npx prettier --write --cache --log-level warn '**/*.md'",
+  "npx markdownlint-cli '**/*.md' -f --ignore-path '.gitignore'",
+]

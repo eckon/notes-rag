@@ -3,10 +3,10 @@
 ## Build Commands
 
 - Install deps: `uv sync`
-- Run tests: `just test` (or `uv run pytest`)
-  - NEVER RUN `just evaluate` (or `uv run src/evaluator.py`)
+- Run tests: `mise run test` (or `uv run pytest`)
+  - NEVER RUN `mise run evaluate` (or `uv run src/evaluator.py`)
 - Run single test: `uv run pytest src/markdown_chunker_test.py::test_function_name`
-- Lint/format: `just check` (runs ruff check/format, prettier, markdownlint)
+- Lint/format: `mise run check` (runs ruff check/format, prettier, markdownlint)
 
 ## Code Style
 
