@@ -35,7 +35,7 @@ def run_tool(prompt: str, tool: AITool) -> str:
         command = [
             "opencode",
             "--model",
-            "anthropic/claude-sonnet-4-5",
+            "github-copilot/claude-sonnet-4.5",
             "run",
             prompt,
         ]
