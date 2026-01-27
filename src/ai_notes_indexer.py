@@ -113,7 +113,17 @@ class NotesIndexer:
 
         if records:
             print(f"{YELLOW}Uploading {GREEN}{len(records)}{RESET} records")
-            self.index.upsert_records(namespace=INDEX_NAMESPACE, records=records)
+            # Pinecone has a max batch size of 96, so we need to split records into batches
+            batch_size = 96
+            for i in range(0, len(records), batch_size):
+                batch = records[i : i + batch_size]
+                batch_num = i // batch_size + 1
+                total_batches = (len(records) + batch_size - 1) // batch_size
+                if total_batches > 1:
+                    print(
+                        f"{GREY}Uploading batch {batch_num}/{total_batches} ({len(batch)} records){RESET}"
+                    )
+                self.index.upsert_records(namespace=INDEX_NAMESPACE, records=batch)
 
     def create_records(
         self, chunks: list[str], metadata_base: ChunkMetadata
