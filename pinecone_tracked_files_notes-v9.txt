@@ -1,7 +1,7 @@
 AGENTS.md@017dcd009203c828d3f316b38c3b290de9395dcaeab89bcfe35092973dc47e4a
 CLAUDE.md@017dcd009203c828d3f316b38c3b290de9395dcaeab89bcfe35092973dc47e4a
 README.md@b9ec1b8e2bb54bab3fe99c9ee68690681cd5893bd03bfbabbf85b41926caeca0
-big-dutchman/agile/retro.md@490bcd9ec8bab8c98267d206688ab3398465bd829f205771076d385c6c0df9a8
+big-dutchman/agile/retro.md@70c363f7c577f5d0404cc85b47da11f8ea68b7443aca4ff928112118c7450891
 big-dutchman/agile/scrum.md@bd363dd33e7d03f4b55a4c356dbacaa8f0a29046745a3927e4427568c4e5ba32
 big-dutchman/ai.md@5fc667281c702b401794aa36cdd29de3d40bd1d27fa86be4784f2d9714e8713c
 big-dutchman/apollo.md@6ef9258dec145ea3cec509cd75a2fbf39c821ed56bb13f5db2e07d0ccb45e2fb
@@ -1011,6 +1011,7 @@ tasks/.archive/2026-10-17.md@dcd11a10ead77ba772565fafc91b84951b39d1865acb196fa73
 tasks/.archive/2026-10-18.md@85faf9749b1bfeae813220afdbc3a3cf96e15d13eb9b9c4fac3c810e2f0e0192
 tasks/.archive/2026-10-19.md@f5341ce6e0e7cd9e10cc7823d2f86d0e5e44935f19fc0e06f5ff8bc1997ba339
 tasks/.archive/2026-10-20.md@7b3c2209ca59714bdad06123aa4a4d4ea4cb3cf78d4bdce4e0bc292e68a054e7
+tasks/.archive/2026-10-21.md@e2198e0f10a4da28981323d8abdad4795691e0ea9d01f9d2a0acdae7e12240b0
 tasks/homelab/connect-claude-to-ha-directly.md@aa8c196c29df47069d6d43685c65327af9c48e19f68e7cbe9b6e8e8ef2b5e87e
 tasks/homelab/create-backup-for-laura-notes.md@d39f1be80346d9d30a7f003c0c990e52ebb5a06b717356f228dd7d527addf412
 tasks/homelab/reconsider-host-names.md@31d50974f8905b7da6fd59901602aa26f8a1a6a4c47f8e188e1eafe7c4c84b5a
@@ -1027,5 +1028,6 @@ tasks/private/check-with-luisa-etc-what-things-are-paid-now-in-dentist.md@09d489
 tasks/private/do-car-stuff-for-father-luisa-etc.md@e86cb29a5256528242866dcffb6ea3d1437843f33091ee88b31d3024daea3735
 tasks/private/get-feet-appointment.md@1b7d92cd341917b4a4d25971b7d91b0bb063a422b4f17a78f9cb59a1f034983f
 tasks/private/move-private-todos-in-markoff-todos-folder-as-well.md@041441f11b91c50c79b30b22c2a25e73b12798131bc0f731f433f040165744ff
+tasks/work/put-this-into-somewhere-for-florian-to-discxuss.md@8a3cb27ae3ff164ff21152e8a3c6746ab1f029677b3e07959d5bb4918b9aab80
 tasks/work/put-times-into-jira.md@7fb03ecdc986754d9aa3cbc2b61eb4a6788cf1e8d3b82ea08c1e9af42bd95f17
 tasks/work/reserve-desk.md@dcc1cb3b940f04eecee9127c9af4fea8e7f96078201b6333a4d6ad5b06a1d8f1
