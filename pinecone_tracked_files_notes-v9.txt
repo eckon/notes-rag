@@ -4323,6 +4323,7 @@ tasks/.archive/2026-10-24/homelab/try-custom-ai-model-for-papra.md@87bfbb731aa51
 tasks/.archive/2026-10-24/homelab/try-local-gpu-ai-model-for-frigate.md@69dfef59b0450a4878f52b8303191d490ed151a9f19d48051cc5cdd72311bfc5
 tasks/.archive/2026-10-24/markoff/check-if-removing-all-files-in-afolder-results-in-git-deleting-it.md@9fc498046fa714c7b742084c97c6e3bd669c42d99dfa370d083c18a72f9d897a
 tasks/.archive/2026-10-24/markoff/decide-prepare-for-public-release.md@58675bdcc7d0f5c8a52b97aa7150e1793d2bd612eed721b6ba4ba5093541aff8
+tasks/homelab/add-some-kind-of-calendar-noting-tool.md@b10730214f62f320521e05f02c67bf6f7eded241ea1330038baf54b9b5df7b73
 tasks/markoff/consider-adding-a-cancel-option.md@390b96086d1a26b592ac741ba22bd817715630ecc6ef7e3b3542c4e1066454e6
 tasks/private/check-with-luisa-etc-what-things-are-paid-now-in-dentist.md@09d48964dca96ffe15352472a7a0d5a1e2ea9c26468fb5077025f0c48ccecb68
 tasks/private/do-car-stuff-for-father-luisa-etc.md@cc182d237ae87055eb4044c58fb32086c3edb79d56896b98731eaeb98a0fe4ab
