@@ -77,6 +77,7 @@ big-dutchman/trainee.md@9ea819bec08831cc7f2c4fa378fae24d6052f6f1cbbd296d076ecbbd
 big-dutchman/travel.md@f9e149a5744425fed812c164dc6892922e926e51c01e5b83a23d35a412df3a0e
 big-dutchman/ui-chapter.md@151e35376fc031fcf3a7620bd30e1442772cf211037682c133a555966664b873
 big-dutchman/vacation.md@426d3bafe77c7d4d389b611dd6a690a07e6be7bbd914302b74ba4219c52d29c8
+big-dutchman/vernmq.md@93c261c4a1da646b7e66f1f201b22a1350e2588a545c320bca8e8e5599bcc8aa
 big-dutchman/wiki.md@0fe8c587b7587db557f03f0620b64f2aedac29fd3bd0b4159f1c37a6e0c28b9f
 iu/absence.md@72118a9b4a576e0d34ab5dc985a05540cb7c9962cd538fcde12fa67f5ea60d2c
 iu/admission.md@d2a0f16849e07d7387404184321404f418edee5b14f55d1aacd7f0406e0c9329
@@ -4339,6 +4340,9 @@ tasks/.archive/2026-10-29/work/clarify-vacation.md@2a4671873a547a951d536f0732472
 tasks/.archive/2026-10-29/work/look-niklas-pr-2.md@face7d4789a28f2067e21c7741757a1de06307ca2332b2dcb552a6dd5d27eec5
 tasks/.archive/2026-10-29/work/look-philip-pr.md@7a8a8430c85105b1f2915db3e20794df0cd59f8e7a3d28ff42fe5d59a0f20a8d
 tasks/.archive/2026-10-29/work/test-user-list-api-call-with-backend-lib.md@0ba0eb67c2367d342db9852a55f7e7f995cbd4e2f814799355e84abee2c06d86
+tasks/.archive/2026-10-30/work/add-ai-skills-repo.md@ed692d9090a61e82f1fa39a0588f052b17fbb5d812e71cf0116bff4b31ca3a75
+tasks/.archive/2026-10-30/work/check-why-drift-in-prod-when-selecting-2-days-is-not-0.md@a10793a0f76bf5f1740a2a7d9954f81dc94b2713e0a44826590581dc37b36b00
+tasks/.archive/2026-10-30/work/update-open-logs-in-vim-to-use-vi-instead-of-gigantic-payload.md@8ce23cb54f17333ec61b17d2ac54ac73da6cd3c92f89a3e71209228218b86a68
 tasks/homelab/add-some-kind-of-calendar-noting-tool.md@b10730214f62f320521e05f02c67bf6f7eded241ea1330038baf54b9b5df7b73
 tasks/homelab/checkout-unlimited-ocr.md@c66c1733af7951970ef5c80c94e58c73a752959a2b785da08c03ef9a736d3445
 tasks/homelab/investigate-jev-like-setup-to-decide-what-camera-notifications-to-send.md@108a139813982dba8decf70486b40f948d1cdf8d415dbafd8555a574257d2aa5
@@ -4349,6 +4353,7 @@ tasks/private/check-with-luisa-etc-what-things-are-paid-now-in-dentist.md@09d489
 tasks/private/decide-for-archipelago-game-and-try-setup.md@f74cd2970ab15d99937cc88fc6f688cb71fbcc0338b68c56792cd9d3fd7bc772
 tasks/private/get-feet-appointment.md@1b7d92cd341917b4a4d25971b7d91b0bb063a422b4f17a78f9cb59a1f034983f
 tasks/private/move-private-todos-in-markoff-todos-folder-as-well.md@041441f11b91c50c79b30b22c2a25e73b12798131bc0f731f433f040165744ff
+tasks/private/put-fly-nets.md@3285a3329aa83b1622cd43431896f9e81d48244da5ea6702457bbdac43cfbeb9
 tasks/work/look-into-openshell.md@a0a033db9a8c1c5f397e366c1fc41e29955d6666e595a19d833c025e232da7fa
 tasks/work/put-times-into-jira.md@7fb03ecdc986754d9aa3cbc2b61eb4a6788cf1e8d3b82ea08c1e9af42bd95f17
 tasks/work/reserve-desk.md@dcc1cb3b940f04eecee9127c9af4fea8e7f96078201b6333a4d6ad5b06a1d8f1
