@@ -4348,12 +4348,16 @@ tasks/.archive/2026-10-31/private/put-fly-nets.md@1bbf049d6fd83bb7121d88b0b2cfee
 tasks/.archive/2026-11-02/markoff/consider-adding-a-cancel-option.md@390b96086d1a26b592ac741ba22bd817715630ecc6ef7e3b3542c4e1066454e6
 tasks/.archive/2026-11-02/work/look-into-openshell.md@dffc7eb5c6636fdebddaaed50471446a3cd53ef1bbce03cccab8fa1c7c8813c3
 tasks/.archive/2026-11-02/work/update-members-translation.md@6dd075a2688c846bf198a2224c53609146cd8457119b5c4afde83bc9eee7aea7
+tasks/.archive/2026-11-03/work/look-into-401-error-in-permission-api.md@65393a442ae3e01ebbc3b6c603ad70f4300c87a149b7ff5d34064cacd758e05b
+tasks/.archive/2026-11-03/work/notify-people-about-new-libs-methods.md@e69a0de7a167596d0571e59fce5e3d1f557adfbb84ab43e84b318d8540e6f452
 tasks/private/check-with-luisa-etc-what-things-are-paid-now-in-dentist.md@09d48964dca96ffe15352472a7a0d5a1e2ea9c26468fb5077025f0c48ccecb68
 tasks/private/decide-for-archipelago-game-and-try-setup.md@f74cd2970ab15d99937cc88fc6f688cb71fbcc0338b68c56792cd9d3fd7bc772
 tasks/private/get-feet-appointment.md@1b7d92cd341917b4a4d25971b7d91b0bb063a422b4f17a78f9cb59a1f034983f
 tasks/private/move-private-todos-in-markoff-todos-folder-as-well.md@041441f11b91c50c79b30b22c2a25e73b12798131bc0f731f433f040165744ff
+tasks/work/ai-meeting-eckellent.md@62533b36b6cf975747c3c2e87122f1be32a100f7fac96a728deda7ca2b642177
 tasks/work/clear-unused-sync-logic.md@f797fd39bac68bfccb162e486d5a1985432688b57304d7c9539f1e5093626211
-tasks/work/notify-people-about-new-libs-methods.md@e69a0de7a167596d0571e59fce5e3d1f557adfbb84ab43e84b318d8540e6f452
+tasks/work/look-into-incorrect-data-send-for-webshop.md@6359ef83e641353adf18e67a52bc9f45f1f31478492972e825b32713343b74c8
 tasks/work/put-times-into-jira.md@7fb03ecdc986754d9aa3cbc2b61eb4a6788cf1e8d3b82ea08c1e9af42bd95f17
 tasks/work/reserve-desk.md@dcc1cb3b940f04eecee9127c9af4fea8e7f96078201b6333a4d6ad5b06a1d8f1
+tasks/work/see-why-user-agent-is-not-passed-in-backend.md@a67bbc5e5812be5fc6fc697e5adc06679356d26ecff00949d1ce09f3520d6faa
 tasks/work/try-out-worktrunk-again.md@0dcc8129b9a5515f3101841d2f2048a1601f05a13850043f8db150e68fb9b00c
