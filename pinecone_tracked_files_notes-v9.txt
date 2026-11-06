@@ -50,7 +50,7 @@ big-dutchman/office365.md@6aa8f98796ab169773641c81cd02eb616e6003ae907afcb55e32a5
 big-dutchman/on-call-duty.md@95fdfdcbdf8acf027f39102e91eab73f1e11fa7ed706eea0735b729a9953fb74
 big-dutchman/password.md@694c923be1e086c9284131883b86aad85c3a5337d6f821d3cab173b654aff068
 big-dutchman/phrase.md@c4fce0607d332f6e9ca9c2ef59a2b13b036676721d4ed22901e19ed06193a58d
-big-dutchman/remote-access.md@072eae776dfc41ed3628290d00c7e9ea620a2fe26719174cbc2cdb00e4f8f8a4
+big-dutchman/remote-access.md@357f3bd80d025960c354b50a15b645c1de4cb64e47a394f47e0449be448529f6
 big-dutchman/renovate.md@2538e07092f7cdad534871166dd1f90e57fd5fbe0079eb2a6f057c749f7a3b71
 big-dutchman/rider.md@b25c6b66fd1bd982bc89b0990c1a1178d99b0a256b6c2e126fd9a3439ce6c410
 big-dutchman/role-management-members.md@ee79085b1aee9b95d94614b5c29a30958a090a6ab11d75327a37d3ccade20982
@@ -4354,11 +4354,17 @@ tasks/.archive/2026-11-04/work/ask-soeren-about-the-assigned-ticket.md@1ddcf15fd
 tasks/.archive/2026-11-04/work/clear-unused-sync-logic.md@3c7ee3a058914149d130f39052b7d08b2af609e9f0eec05380c3436aa85d91d2
 tasks/.archive/2026-11-04/work/see-why-user-agent-is-not-passed-in-backend.md@6107dc2caf9ab7eb3f644d944842cbdb35fdbdbfce4646b10f0b844f21ada19c
 tasks/.archive/2026-11-04/work/try-out-worktrunk-again.md@0dcc8129b9a5515f3101841d2f2048a1601f05a13850043f8db150e68fb9b00c
+tasks/.archive/2026-11-05/work/create-and-merge-playwright-cve-2026-111497-prs.md@164ccf354d67a24b5209a128d09191ebe14f8aa94276da75ca7943bd001557a2
+tasks/.archive/2026-11-05/work/look-into-incorrect-data-send-for-webshop.md@9198738bf903da4cdd4824f47e6127c834b81a9abef326f8e9f06f0bf663db7c
+tasks/markoff/add-markdown-preview-via-external-tool.md@3b2874a74cb89d7e790efff6e3173e13505e97e48ec1565d6cce748ffed85a2d
+tasks/markoff/create-ways-to-allow-ai-using-it.md@7691085c02c53592c48354d2de4e80dec8aeb47dcd06f7ca4cb5b12f7a6c1e36
 tasks/private/check-with-luisa-etc-what-things-are-paid-now-in-dentist.md@09d48964dca96ffe15352472a7a0d5a1e2ea9c26468fb5077025f0c48ccecb68
 tasks/private/decide-for-archipelago-game-and-try-setup.md@f74cd2970ab15d99937cc88fc6f688cb71fbcc0338b68c56792cd9d3fd7bc772
 tasks/private/get-feet-appointment.md@1b7d92cd341917b4a4d25971b7d91b0bb063a422b4f17a78f9cb59a1f034983f
 tasks/private/move-private-todos-in-markoff-todos-folder-as-well.md@041441f11b91c50c79b30b22c2a25e73b12798131bc0f731f433f040165744ff
 tasks/work/create-ai-notes-for-apollo-and-write-into-wiki-page.md@40b689cc50d652b832357677ed7782e5890ee1cd5144afc2c30d141541a744de
-tasks/work/look-into-incorrect-data-send-for-webshop.md@6359ef83e641353adf18e67a52bc9f45f1f31478492972e825b32713343b74c8
+tasks/work/fix-dd-rum-for-connection.md@b9cb20c51fcac5c17d207df2a5d417e33f93d17ba9ac695d661b51c9b8ce7856
 tasks/work/put-times-into-jira.md@7fb03ecdc986754d9aa3cbc2b61eb4a6788cf1e8d3b82ea08c1e9af42bd95f17
 tasks/work/reserve-desk.md@dcc1cb3b940f04eecee9127c9af4fea8e7f96078201b6333a4d6ad5b06a1d8f1
+tasks/work/resolve-cve-for-admin-ui.md@b70fd03e7904c1cd7a846a6fba0bd7c709e29e30cd2bb139751ffc2fb8e1e4be
+tasks/work/test-ai-langdock-with-ben.md@a58db08bda0f89f7d6242add4451038dfdc940376eb22d3e8cda7bce1a050a1f
