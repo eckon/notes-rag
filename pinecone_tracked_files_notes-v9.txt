@@ -4356,6 +4356,7 @@ tasks/.archive/2026-11-04/work/see-why-user-agent-is-not-passed-in-backend.md@61
 tasks/.archive/2026-11-04/work/try-out-worktrunk-again.md@0dcc8129b9a5515f3101841d2f2048a1601f05a13850043f8db150e68fb9b00c
 tasks/.archive/2026-11-05/work/create-and-merge-playwright-cve-2026-111497-prs.md@164ccf354d67a24b5209a128d09191ebe14f8aa94276da75ca7943bd001557a2
 tasks/.archive/2026-11-05/work/look-into-incorrect-data-send-for-webshop.md@9198738bf903da4cdd4824f47e6127c834b81a9abef326f8e9f06f0bf663db7c
+tasks/.archive/2026-11-06/work/fix-dd-rum-for-connection.md@682ebf704101fdf19f56c59a085fe0c635ce03ca0ad0c63f7215ee5f6d501054
 tasks/markoff/add-markdown-preview-via-external-tool.md@3b2874a74cb89d7e790efff6e3173e13505e97e48ec1565d6cce748ffed85a2d
 tasks/markoff/create-ways-to-allow-ai-using-it.md@7691085c02c53592c48354d2de4e80dec8aeb47dcd06f7ca4cb5b12f7a6c1e36
 tasks/private/check-with-luisa-etc-what-things-are-paid-now-in-dentist.md@09d48964dca96ffe15352472a7a0d5a1e2ea9c26468fb5077025f0c48ccecb68
@@ -4363,8 +4364,7 @@ tasks/private/decide-for-archipelago-game-and-try-setup.md@f74cd2970ab15d99937cc
 tasks/private/get-feet-appointment.md@1b7d92cd341917b4a4d25971b7d91b0bb063a422b4f17a78f9cb59a1f034983f
 tasks/private/move-private-todos-in-markoff-todos-folder-as-well.md@041441f11b91c50c79b30b22c2a25e73b12798131bc0f731f433f040165744ff
 tasks/work/create-ai-notes-for-apollo-and-write-into-wiki-page.md@40b689cc50d652b832357677ed7782e5890ee1cd5144afc2c30d141541a744de
-tasks/work/fix-dd-rum-for-connection.md@b9cb20c51fcac5c17d207df2a5d417e33f93d17ba9ac695d661b51c9b8ce7856
 tasks/work/put-times-into-jira.md@7fb03ecdc986754d9aa3cbc2b61eb4a6788cf1e8d3b82ea08c1e9af42bd95f17
 tasks/work/reserve-desk.md@dcc1cb3b940f04eecee9127c9af4fea8e7f96078201b6333a4d6ad5b06a1d8f1
-tasks/work/resolve-cve-for-admin-ui.md@b70fd03e7904c1cd7a846a6fba0bd7c709e29e30cd2bb139751ffc2fb8e1e4be
+tasks/work/resolve-cve-for-admin-ui.md@b44c7af1434b580e71731bd913ca8085fead63b83567980e0347a6a7e277dfbf
 tasks/work/test-ai-langdock-with-ben.md@a58db08bda0f89f7d6242add4451038dfdc940376eb22d3e8cda7bce1a050a1f
