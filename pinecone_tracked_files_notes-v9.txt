@@ -4356,9 +4356,9 @@ tasks/.archive/2026-11-04/work/see-why-user-agent-is-not-passed-in-backend.md@61
 tasks/.archive/2026-11-04/work/try-out-worktrunk-again.md@0dcc8129b9a5515f3101841d2f2048a1601f05a13850043f8db150e68fb9b00c
 tasks/.archive/2026-11-05/work/create-and-merge-playwright-cve-2026-111497-prs.md@164ccf354d67a24b5209a128d09191ebe14f8aa94276da75ca7943bd001557a2
 tasks/.archive/2026-11-05/work/look-into-incorrect-data-send-for-webshop.md@9198738bf903da4cdd4824f47e6127c834b81a9abef326f8e9f06f0bf663db7c
+tasks/.archive/2026-11-06/markoff/add-markdown-preview-via-external-tool.md@1ad173fb1e8c44b9b38965078d301b61ed7b7537b0b0f1fc432720d7957fadf7
+tasks/.archive/2026-11-06/markoff/create-ways-to-allow-ai-using-it.md@7691085c02c53592c48354d2de4e80dec8aeb47dcd06f7ca4cb5b12f7a6c1e36
 tasks/.archive/2026-11-06/work/fix-dd-rum-for-connection.md@682ebf704101fdf19f56c59a085fe0c635ce03ca0ad0c63f7215ee5f6d501054
-tasks/markoff/add-markdown-preview-via-external-tool.md@3b2874a74cb89d7e790efff6e3173e13505e97e48ec1565d6cce748ffed85a2d
-tasks/markoff/create-ways-to-allow-ai-using-it.md@7691085c02c53592c48354d2de4e80dec8aeb47dcd06f7ca4cb5b12f7a6c1e36
 tasks/private/check-with-luisa-etc-what-things-are-paid-now-in-dentist.md@09d48964dca96ffe15352472a7a0d5a1e2ea9c26468fb5077025f0c48ccecb68
 tasks/private/decide-for-archipelago-game-and-try-setup.md@f74cd2970ab15d99937cc88fc6f688cb71fbcc0338b68c56792cd9d3fd7bc772
 tasks/private/get-feet-appointment.md@1b7d92cd341917b4a4d25971b7d91b0bb063a422b4f17a78f9cb59a1f034983f
