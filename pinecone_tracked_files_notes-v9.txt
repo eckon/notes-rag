@@ -4359,6 +4359,7 @@ tasks/.archive/2026-11-05/work/look-into-incorrect-data-send-for-webshop.md@9198
 tasks/.archive/2026-11-06/markoff/add-markdown-preview-via-external-tool.md@1ad173fb1e8c44b9b38965078d301b61ed7b7537b0b0f1fc432720d7957fadf7
 tasks/.archive/2026-11-06/markoff/create-ways-to-allow-ai-using-it.md@7691085c02c53592c48354d2de4e80dec8aeb47dcd06f7ca4cb5b12f7a6c1e36
 tasks/.archive/2026-11-06/work/fix-dd-rum-for-connection.md@682ebf704101fdf19f56c59a085fe0c635ce03ca0ad0c63f7215ee5f6d501054
+tasks/homelab/setup-backup-for-git-and-point-private-notes-to-it.md@fe2d6a9c8a4ccb7e973cfec9330bb0649d9f4d6dcfdd4347769f300f458a3007
 tasks/private/check-with-luisa-etc-what-things-are-paid-now-in-dentist.md@09d48964dca96ffe15352472a7a0d5a1e2ea9c26468fb5077025f0c48ccecb68
 tasks/private/decide-for-archipelago-game-and-try-setup.md@f74cd2970ab15d99937cc88fc6f688cb71fbcc0338b68c56792cd9d3fd7bc772
 tasks/private/get-feet-appointment.md@1b7d92cd341917b4a4d25971b7d91b0bb063a422b4f17a78f9cb59a1f034983f
@@ -4368,3 +4369,4 @@ tasks/work/put-times-into-jira.md@7fb03ecdc986754d9aa3cbc2b61eb4a6788cf1e8d3b82e
 tasks/work/reserve-desk.md@dcc1cb3b940f04eecee9127c9af4fea8e7f96078201b6333a4d6ad5b06a1d8f1
 tasks/work/resolve-cve-for-admin-ui.md@b44c7af1434b580e71731bd913ca8085fead63b83567980e0347a6a7e277dfbf
 tasks/work/test-ai-langdock-with-ben.md@a58db08bda0f89f7d6242add4451038dfdc940376eb22d3e8cda7bce1a050a1f
+tasks/work/use-newest-markoff-version.md@a9361b86ca3e599e62d8b4a0f973d281bddb6923a748377878b906c0b77df8c5
