@@ -173,6 +173,7 @@ private/path-of-exile/poe1_3-26.md@a6235157c53a5b56216a668119c49c010ae15110e5dbc
 private/path-of-exile/poe1_3-27.md@015da6d1086f6f3c286f7f93a450386f193ca6e2bc34a2b313d7e1eec7f72e54
 private/path-of-exile/poe1_3-28.md@9543dc62e5c43496dae8795b922960957d580facb46ef0fc35baf67e78e2545a
 private/path-of-exile/poe1_3-29.md@2e921db6a716451f14d6b5987d18a9acbd455bd862f65845ba3db113adb39fbe
+private/path-of-exile/poe1_3-30.md@508a9e123f68292c1be7e66d579677d0267b1c3dd8f12b70053574a29808e859
 private/path-of-exile/poe2.md@01e449cc180d6f2fc127a2528da3742f4a11627af76e51bbfd3a0ab5f812dc53
 private/path-of-exile/poe2_0-3.md@ba5cf52da8df047f47aadc37701970a263a999a1e64db9a72cac3091a76c20c7
 private/path-of-exile/poe2_0-5.md@a024b7025ba454d07b0bca426924eedd0bfc8ea7a95936d9d347b78dc8a59bef
@@ -4368,6 +4369,9 @@ tasks/.archive/2026-11-10/work/give-sven-new-empty-legal-entities.md@d0201fba284
 tasks/.archive/2026-11-10/work/look-into-kasper-problems-with-tech-user-lib.md@f7227e1fcfd06b11d27fbf6c8169ca6382ce8862caf1e8de92bb3262858478b9
 tasks/.archive/2026-11-10/work/merge-ai-poc-with-ben.md@da993681aa54a10181fc22461cbef5c599e2e094d52055c24ba0a12e9b9f7c20
 tasks/.archive/2026-11-10/work/try-prompt-injection-to-get-a-general-understanding-how-well-it-works.md@819fde441989f6ca4ccd1a5f16aac841172f989931a309d54b946f7bacdb6dc5
+tasks/.archive/2026-11-11/work/look-into-dotnet-11-and-if-we-want-to-use-it.md@604d8a7a1b21f7a2e8334b15e1c79f31484bc5bbfe2ae34342aff09b08bf3a6e
+tasks/.archive/2026-11-11/work/look-into-niklas-pr.md@651d4a53860c06c0af941b693d6afeb700f411e4fb62295cc82e723285d96779
+tasks/.archive/2026-11-11/work/test-new-rum-fix-from-components.md@a10d317dd8e53cd99c1c8238fa49c645406d2580a60122164841575b4f2447f3
 tasks/homelab/setup-backup-for-git-and-point-private-notes-to-it.md@fe2d6a9c8a4ccb7e973cfec9330bb0649d9f4d6dcfdd4347769f300f458a3007
 tasks/private/check-with-luisa-etc-what-things-are-paid-now-in-dentist.md@09d48964dca96ffe15352472a7a0d5a1e2ea9c26468fb5077025f0c48ccecb68
 tasks/private/decide-for-archipelago-game-and-try-setup.md@f74cd2970ab15d99937cc88fc6f688cb71fbcc0338b68c56792cd9d3fd7bc772
