@@ -173,7 +173,7 @@ private/path-of-exile/poe1_3-26.md@a6235157c53a5b56216a668119c49c010ae15110e5dbc
 private/path-of-exile/poe1_3-27.md@015da6d1086f6f3c286f7f93a450386f193ca6e2bc34a2b313d7e1eec7f72e54
 private/path-of-exile/poe1_3-28.md@9543dc62e5c43496dae8795b922960957d580facb46ef0fc35baf67e78e2545a
 private/path-of-exile/poe1_3-29.md@2e921db6a716451f14d6b5987d18a9acbd455bd862f65845ba3db113adb39fbe
-private/path-of-exile/poe1_3-30.md@508a9e123f68292c1be7e66d579677d0267b1c3dd8f12b70053574a29808e859
+private/path-of-exile/poe1_3-30.md@8c20a7dc98b9ed2c5666f7f46bb01fc98564a0b8f00ad7a8e9439cb90d9c97d6
 private/path-of-exile/poe2.md@01e449cc180d6f2fc127a2528da3742f4a11627af76e51bbfd3a0ab5f812dc53
 private/path-of-exile/poe2_0-3.md@ba5cf52da8df047f47aadc37701970a263a999a1e64db9a72cac3091a76c20c7
 private/path-of-exile/poe2_0-5.md@a024b7025ba454d07b0bca426924eedd0bfc8ea7a95936d9d347b78dc8a59bef
