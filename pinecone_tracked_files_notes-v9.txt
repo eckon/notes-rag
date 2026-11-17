@@ -1,7 +1,7 @@
 AGENTS.md@e07d09db033f9ad3400e42409a67e132fd9cd6cde9c4169bf0e631bc8e1ea7c0
 CLAUDE.md@e07d09db033f9ad3400e42409a67e132fd9cd6cde9c4169bf0e631bc8e1ea7c0
 README.md@23799826b57fa96082609c825fdd0f353415077c6f5f15a5d5669cffbc143368
-big-dutchman/agile/retro.md@70c363f7c577f5d0404cc85b47da11f8ea68b7443aca4ff928112118c7450891
+big-dutchman/agile/retro.md@cbc442887750b9bbb15654b8fa2fc95fc68404dbbce352b936ddd92acabcfcf6
 big-dutchman/agile/scrum.md@bd363dd33e7d03f4b55a4c356dbacaa8f0a29046745a3927e4427568c4e5ba32
 big-dutchman/ai.md@58bfd04998066bdf76810033103ef5527bdfdf04ef75cd6bfd81ca67069e1ee3
 big-dutchman/apollo.md@6ef9258dec145ea3cec509cd75a2fbf39c821ed56bb13f5db2e07d0ccb45e2fb
@@ -4372,6 +4372,7 @@ tasks/.archive/2026-11-10/work/try-prompt-injection-to-get-a-general-understandi
 tasks/.archive/2026-11-11/work/look-into-dotnet-11-and-if-we-want-to-use-it.md@604d8a7a1b21f7a2e8334b15e1c79f31484bc5bbfe2ae34342aff09b08bf3a6e
 tasks/.archive/2026-11-11/work/look-into-niklas-pr.md@651d4a53860c06c0af941b693d6afeb700f411e4fb62295cc82e723285d96779
 tasks/.archive/2026-11-11/work/test-new-rum-fix-from-components.md@a10d317dd8e53cd99c1c8238fa49c645406d2580a60122164841575b4f2447f3
+tasks/.archive/2026-11-16/work/do-soeren-request-for-emails-of-given-les.md@b8a1226b916b08b6f7585fa3cb65f3d71d24a6bfe97b73810f2f09559986e35a
 tasks/homelab/setup-backup-for-git-and-point-private-notes-to-it.md@fe2d6a9c8a4ccb7e973cfec9330bb0649d9f4d6dcfdd4347769f300f458a3007
 tasks/private/check-with-luisa-etc-what-things-are-paid-now-in-dentist.md@09d48964dca96ffe15352472a7a0d5a1e2ea9c26468fb5077025f0c48ccecb68
 tasks/private/decide-for-archipelago-game-and-try-setup.md@f74cd2970ab15d99937cc88fc6f688cb71fbcc0338b68c56792cd9d3fd7bc772
