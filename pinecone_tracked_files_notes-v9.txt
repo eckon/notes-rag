@@ -4373,10 +4373,16 @@ tasks/.archive/2026-11-11/work/look-into-dotnet-11-and-if-we-want-to-use-it.md@6
 tasks/.archive/2026-11-11/work/look-into-niklas-pr.md@651d4a53860c06c0af941b693d6afeb700f411e4fb62295cc82e723285d96779
 tasks/.archive/2026-11-11/work/test-new-rum-fix-from-components.md@a10d317dd8e53cd99c1c8238fa49c645406d2580a60122164841575b4f2447f3
 tasks/.archive/2026-11-16/work/do-soeren-request-for-emails-of-given-les.md@b8a1226b916b08b6f7585fa3cb65f3d71d24a6bfe97b73810f2f09559986e35a
+tasks/.archive/2026-11-18/work/compare-skov-tests-with-out-permission-tests.md@e0e3f09f92aa13aacc6fa2eccb8d217c6d86286af44ed40d0050d5755ddbb6d4
+tasks/.archive/2026-11-18/work/create-ft-for-skov-delete-farm.md@508896e7cf8a19a374c3c2f23e241561f99d11e2dab9595f4799d5add7a924b6
+tasks/.archive/2026-11-18/work/skov-farm-permission-meeting.md@d1ef952b166373e5035af97ed63b614967eef6b459a70acf2292c06e5679c638
 tasks/homelab/setup-backup-for-git-and-point-private-notes-to-it.md@fe2d6a9c8a4ccb7e973cfec9330bb0649d9f4d6dcfdd4347769f300f458a3007
+tasks/homelab/the-link-for-camera-notificaiotns-does-not-work.md@27a0603711a169bc3a53912789c0211014848fe15bd7e3f852bbe8d7adf85960
+tasks/markoff/check-why-the-tool-seems-sluggish.md@0fe19b266917c587bdfbb0ffdd5f0e5a269ef5a7ec200f989369c4bcd97cb919
 tasks/private/check-with-luisa-etc-what-things-are-paid-now-in-dentist.md@09d48964dca96ffe15352472a7a0d5a1e2ea9c26468fb5077025f0c48ccecb68
 tasks/private/decide-for-archipelago-game-and-try-setup.md@f74cd2970ab15d99937cc88fc6f688cb71fbcc0338b68c56792cd9d3fd7bc772
 tasks/private/get-feet-appointment.md@1b7d92cd341917b4a4d25971b7d91b0bb063a422b4f17a78f9cb59a1f034983f
 tasks/private/move-private-todos-in-markoff-todos-folder-as-well.md@041441f11b91c50c79b30b22c2a25e73b12798131bc0f731f433f040165744ff
+tasks/work/migrate-china-to-farm-permissions.md@4200bc2287c1e72f2375777a3f53f688c464ce7cfb36b868a50be57592b58579
 tasks/work/put-times-into-jira.md@7fb03ecdc986754d9aa3cbc2b61eb4a6788cf1e8d3b82ea08c1e9af42bd95f17
 tasks/work/reserve-desk.md@dcc1cb3b940f04eecee9127c9af4fea8e7f96078201b6333a4d6ad5b06a1d8f1
