@@ -4377,6 +4377,8 @@ tasks/.archive/2026-11-18/work/compare-skov-tests-with-out-permission-tests.md@e
 tasks/.archive/2026-11-18/work/create-ft-for-skov-delete-farm.md@508896e7cf8a19a374c3c2f23e241561f99d11e2dab9595f4799d5add7a924b6
 tasks/.archive/2026-11-18/work/skov-farm-permission-meeting.md@d1ef952b166373e5035af97ed63b614967eef6b459a70acf2292c06e5679c638
 tasks/.archive/2026-11-19/work/migrate-china-to-farm-permissions.md@1914afd3b4444960e5cf72178b04758d3018be7058ccb27760958e31b12639c5
+tasks/.archive/2026-11-20/work/add-all-china-smoke-tests-for-permission.md@acfd91732771b305bb929e6daf3c6b380b007643403814f57bea7a0885ec1788
+tasks/.archive/2026-11-20/work/compare-china-farms-with-connection-and-retrigger.md@231d9a30675a487d0839db9a44ddf6c63a28ab13cc27d3d41c3578f332868222
 tasks/homelab/setup-backup-for-git-and-point-private-notes-to-it.md@fe2d6a9c8a4ccb7e973cfec9330bb0649d9f4d6dcfdd4347769f300f458a3007
 tasks/homelab/the-link-for-camera-notificaiotns-does-not-work.md@27a0603711a169bc3a53912789c0211014848fe15bd7e3f852bbe8d7adf85960
 tasks/markoff/check-why-the-tool-seems-sluggish.md@0fe19b266917c587bdfbb0ffdd5f0e5a269ef5a7ec200f989369c4bcd97cb919
@@ -4385,6 +4387,6 @@ tasks/private/decide-for-archipelago-game-and-try-setup.md@f74cd2970ab15d99937cc
 tasks/private/get-feet-appointment.md@1b7d92cd341917b4a4d25971b7d91b0bb063a422b4f17a78f9cb59a1f034983f
 tasks/private/move-private-todos-in-markoff-todos-folder-as-well.md@041441f11b91c50c79b30b22c2a25e73b12798131bc0f731f433f040165744ff
 tasks/work/put-times-into-jira.md@7fb03ecdc986754d9aa3cbc2b61eb4a6788cf1e8d3b82ea08c1e9af42bd95f17
-tasks/work/receive-lobster-data-in-china.md@e52ef275fd0d8985acdadebbb9f91da4aec88cd3136657cb8ba72c2c149df266
+tasks/work/receive-lobster-data-in-china.md@0f2046f10a71df625d5c810f12a233166ebc391c10e6bc1826e20b868bcad8a5
 tasks/work/reserve-desk.md@dcc1cb3b940f04eecee9127c9af4fea8e7f96078201b6333a4d6ad5b06a1d8f1
 tasks/work/sendout-legal-entities-from-lem.md@1412b48d8c82ae29929a4a96ac2dce4a8efb3c15fdd8b2979363515e355b2bcf
