@@ -4596,12 +4596,14 @@ tasks/.archive/2026-11-25/work/look-into-phrase-strings-usage.md@e4cb933c064626c
 tasks/.archive/2026-11-25/work/try-using-pi-again.md@e31898e567513d2cb696e01e81f7741b36bf81a28882a3ac22fa376bb70c921a
 tasks/.archive/2026-11-26/work/fill-out-christmas-support.md@eb628ad80fc485671c0113d9edaaa272d6e0f4ede79064ef79b74064185dc569
 tasks/.archive/2026-11-26/work/swap-customer-numbers-for-special-case.md@de06788fda63a9539f66a7129db2d47575702dad6cc3a6ab33e7423ca07ca468
+tasks/.archive/2026-11-27/private/recharge-money-on-phone.md@1c2565299215a1236b5232857cd3915ad87776bc90a8753d37eea19ccac98eae
+tasks/homelab/check-camera-classifications-and-align-them.md@18ec7e1387da1a374ebbb96c3db62e0b270009adab0f489c4877061d75328bfc
 tasks/homelab/setup-backup-for-git-and-point-private-notes-to-it.md@fe2d6a9c8a4ccb7e973cfec9330bb0649d9f4d6dcfdd4347769f300f458a3007
 tasks/private/check-with-luisa-etc-what-things-are-paid-now-in-dentist.md@09d48964dca96ffe15352472a7a0d5a1e2ea9c26468fb5077025f0c48ccecb68
 tasks/private/decide-for-archipelago-game-and-try-setup.md@f74cd2970ab15d99937cc88fc6f688cb71fbcc0338b68c56792cd9d3fd7bc772
 tasks/private/get-feet-appointment.md@1b7d92cd341917b4a4d25971b7d91b0bb063a422b4f17a78f9cb59a1f034983f
 tasks/private/handle-finances-and-insurance.md@c4732c8dd5500cafefe8b2504dfd3537489274e50644454870d0bac92e822ff7
-tasks/private/recharge-money-on-phone.md@1c2565299215a1236b5232857cd3915ad87776bc90a8753d37eea19ccac98eae
+tasks/work/check-readonly-db-access-setup.md@cefab24b23cdc27edc18c2f662fb50eea72a7e1343844c7f504958aee538c812
 tasks/work/look-into-db-usage-via-ai-agent.md@cc11f6bb3ed6b8209fd3dd557bac2b1bf0ca9153d7e3c73f6ab661750af44c72
 tasks/work/put-times-into-jira.md@7fb03ecdc986754d9aa3cbc2b61eb4a6788cf1e8d3b82ea08c1e9af42bd95f17
 tasks/work/reserve-desk.md@dcc1cb3b940f04eecee9127c9af4fea8e7f96078201b6333a4d6ad5b06a1d8f1
